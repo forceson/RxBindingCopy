@@ -17,7 +17,7 @@ public class RxAndroidClockHook {
      * {@link SystemClock#uptimeMillis()}.
      * @return milliseconds of non-sleep uptime since boot.
      */
-    public long upTimeMillis() {
+    public long uptimeMillis() {
         return SystemClock.uptimeMillis();
     }
 }

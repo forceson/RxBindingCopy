@@ -14,35 +14,38 @@ import rx.functions.Action0;
 import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
 
 /**
- * Created by son on 2020-01-09.
+ * Created by son on 2020-01-10.
  */
-class ViewClickOnSubscribe implements Observable.OnSubscribe<Long> {
+public class ViewFocusChangeEventOnSubscribe implements Observable.OnSubscribe<ViewFocusChangeEvent> {
     private final View view;
 
-    ViewClickOnSubscribe(View view) {
+    public ViewFocusChangeEventOnSubscribe(View view) {
         this.view = view;
     }
 
     @Override
-    public void call(Subscriber<? super Long> subscriber) {
+    public void call(Subscriber<? super ViewFocusChangeEvent> subscriber) {
         assertUiThread();
 
         final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
-        View.OnClickListener listener = new View.OnClickListener() {
+        View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                subscriber.onNext(clockHook.uptimeMillis());
+            public void onFocusChange(View view, boolean hasFocus) {
+                subscriber.onNext(ViewFocusChangeEvent.create(view, clockHook.uptimeMillis(), hasFocus));
             }
         };
 
         Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
             @Override
             public void call() {
-                view.setOnClickListener(null);
+                view.setOnFocusChangeListener(null);
             }
         });
         subscriber.add(subscription);
 
-        view.setOnClickListener(listener);
+        view.setOnFocusChangeListener(listener);
+
+        // Send out the initial value.
+        subscriber.onNext(ViewFocusChangeEvent.create(view, clockHook.uptimeMillis(), view.hasFocus()));
     }
 }

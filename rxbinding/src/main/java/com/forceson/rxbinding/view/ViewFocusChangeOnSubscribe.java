@@ -3,8 +3,6 @@ package com.forceson.rxbinding.view;
 import android.view.View;
 
 import com.forceson.rxbinding.internal.AndroidSubscriptions;
-import com.forceson.rxbinding.plugins.RxAndroidClockHook;
-import com.forceson.rxbinding.plugins.RxAndroidPlugins;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -14,35 +12,37 @@ import rx.functions.Action0;
 import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
 
 /**
- * Created by son on 2020-01-09.
+ * Created by son on 2020-01-10.
  */
-class ViewClickOnSubscribe implements Observable.OnSubscribe<Long> {
+final class ViewFocusChangeOnSubscribe implements Observable.OnSubscribe<Boolean> {
     private final View view;
 
-    ViewClickOnSubscribe(View view) {
+    public ViewFocusChangeOnSubscribe(View view) {
         this.view = view;
     }
 
     @Override
-    public void call(Subscriber<? super Long> subscriber) {
+    public void call(final Subscriber<? super Boolean> subscriber) {
         assertUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
-        View.OnClickListener listener = new View.OnClickListener() {
+        View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                subscriber.onNext(clockHook.uptimeMillis());
+            public void onFocusChange(View v, boolean hasFocus) {
+                subscriber.onNext(hasFocus);
             }
         };
 
         Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
             @Override
             public void call() {
-                view.setOnClickListener(null);
+                view.setOnFocusChangeListener(null);
             }
         });
         subscriber.add(subscription);
 
-        view.setOnClickListener(listener);
+        view.setOnFocusChangeListener(listener);
+
+        // Send out the initial value.
+        subscriber.onNext(view.hasFocus());
     }
 }

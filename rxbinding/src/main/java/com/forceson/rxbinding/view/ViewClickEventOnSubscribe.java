@@ -14,24 +14,24 @@ import rx.functions.Action0;
 import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
 
 /**
- * Created by son on 2020-01-09.
+ * Created by son on 2020-01-10.
  */
-class ViewClickOnSubscribe implements Observable.OnSubscribe<Long> {
+final class ViewClickEventOnSubscribe implements Observable.OnSubscribe<ViewClickEvent> {
     private final View view;
 
-    ViewClickOnSubscribe(View view) {
+    public ViewClickEventOnSubscribe(View view) {
         this.view = view;
     }
 
     @Override
-    public void call(Subscriber<? super Long> subscriber) {
+    public void call(Subscriber<? super ViewClickEvent> subscriber) {
         assertUiThread();
 
         final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subscriber.onNext(clockHook.uptimeMillis());
+                subscriber.onNext(ViewClickEvent.create(view, clockHook.uptimeMillis()));
             }
         };
 

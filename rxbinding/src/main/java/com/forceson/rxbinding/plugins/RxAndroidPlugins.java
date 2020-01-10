@@ -15,7 +15,7 @@ public final class RxAndroidPlugins {
     private final AtomicReference<RxAndroidSchedulerHook> schedulersHook = new AtomicReference<>();
     private final AtomicReference<RxAndroidClockHook> clockHook = new AtomicReference<>();
 
-    RxAndroidPlugins() {
+    public RxAndroidPlugins() {
 
     }
 
@@ -72,6 +72,13 @@ public final class RxAndroidPlugins {
             }
         } else {
             return null;
+        }
+    }
+
+    public void registerSchedulersHook(RxAndroidSchedulerHook impl) {
+        if (!schedulersHook.compareAndSet(null, impl)) {
+            throw new IllegalStateException(
+                    "Another strategy was already registered: " + schedulersHook.get());
         }
     }
 }
