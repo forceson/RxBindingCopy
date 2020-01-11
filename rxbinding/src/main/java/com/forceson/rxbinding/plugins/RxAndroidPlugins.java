@@ -81,4 +81,11 @@ public final class RxAndroidPlugins {
                     "Another strategy was already registered: " + schedulersHook.get());
         }
     }
+
+    public void registerClockHook(RxAndroidClockHook impl) {
+        if (!clockHook.compareAndSet(null, impl)) {
+            throw new IllegalStateException(
+                    "Another strategy was already registered: " + clockHook.get());
+        }
+    }
 }

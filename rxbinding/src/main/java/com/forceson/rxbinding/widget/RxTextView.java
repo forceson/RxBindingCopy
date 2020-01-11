@@ -9,7 +9,11 @@ import rx.functions.Action1;
  * Created by son on 2020-01-10.
  */
 public final class RxTextView {
-    public static Observable<TextViewTextChangeEvent> textChanges(TextView view) {
+    public static Observable<CharSequence> textChanges(TextView view) {
+        return Observable.create(new TextViewTextOnSubscribe(view));
+    }
+
+    public static Observable<TextViewTextChangeEvent> textChangeEvents(TextView view) {
         return Observable.create(new TextViewTextEventOnSubscribe(view));
     }
 

@@ -47,9 +47,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.0.2'
 
     implementation rootProject.ext.rxJava
-    implementation rootProject.ext.supportAnnotations
 
-    androidTestImplementation rootProject.ext.testingSupportLib
     androidTestImplementation(rootProject.ext.truth) {
         exclude group: 'junit' // Android ships with JUnit.
     }
@@ -57,4 +55,8 @@ dependencies {
     testImplementation rootProject.ext.junit
     testImplementation rootProject.ext.truth
     testImplementation rootProject.ext.mockito
+
+    androidTestImplementation rootProject.ext.androidXTestCore
+    androidTestImplementation rootProject.ext.androidXTestRunner
+    androidTestImplementation rootProject.ext.androidXTestRules
 }
