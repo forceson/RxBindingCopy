@@ -14,6 +14,7 @@ public final class RxAndroidPlugins {
 
     private final AtomicReference<RxAndroidSchedulerHook> schedulersHook = new AtomicReference<>();
     private final AtomicReference<RxAndroidClockHook> clockHook = new AtomicReference<>();
+    private final AtomicReference<RxAndroidLogHook> logHook = new AtomicReference<>();
 
     public RxAndroidPlugins() {
 
@@ -22,6 +23,7 @@ public final class RxAndroidPlugins {
     public void reset() {
         schedulersHook.set(null);
         clockHook.set(null);
+        logHook.set(null);
     }
 
     public RxAndroidSchedulerHook getSchedulersHook() {
@@ -48,6 +50,19 @@ public final class RxAndroidPlugins {
             }
         }
         return clockHook.get();
+    }
+
+    public RxAndroidLogHook getLogHook() {
+        if (logHook.get() == null) {
+            RxAndroidLogHook impl =
+                    getPluginImplementationViaProperty(RxAndroidLogHook.class);
+            if (impl == null) {
+                logHook.compareAndSet(null, RxAndroidLogHook.getDefaultInstance());
+            } else {
+                logHook.compareAndSet(null, impl);
+            }
+        }
+        return logHook.get();
     }
 
     @SuppressWarnings("unchecked") // Burden of correctness is on the property setter.
@@ -84,6 +99,13 @@ public final class RxAndroidPlugins {
 
     public void registerClockHook(RxAndroidClockHook impl) {
         if (!clockHook.compareAndSet(null, impl)) {
+            throw new IllegalStateException(
+                    "Another strategy was already registered: " + clockHook.get());
+        }
+    }
+
+    public void registerLogHook(RxAndroidLogHook impl) {
+        if (!logHook.compareAndSet(null, impl)) {
             throw new IllegalStateException(
                     "Another strategy was already registered: " + clockHook.get());
         }
