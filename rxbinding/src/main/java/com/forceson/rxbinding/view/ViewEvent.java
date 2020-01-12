@@ -20,7 +20,8 @@ public class ViewEvent<T extends View> {
         this.timestamp = timestamp;
     }
 
-    public @NonNull T view() {
+    public @NonNull
+    T view() {
         return view;
     }
 
@@ -37,6 +38,7 @@ public class ViewEvent<T extends View> {
     @Override
     public boolean equals(@Nullable Object obj) {
         if (obj == this) return true;
+        if (obj == null || !obj.getClass().equals(getClass())) return false;
         if (!(obj instanceof ViewEvent)) return false;
         ViewEvent other = (ViewEvent) obj;
         return view == other.view && timestamp == other.timestamp;

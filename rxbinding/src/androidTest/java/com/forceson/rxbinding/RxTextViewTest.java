@@ -58,6 +58,8 @@ public final class RxTextViewTest {
         assertThat(o.takeNext().toString()).isEqualTo("H");
         view.setText("He");
         assertThat(o.takeNext().toString()).isEqualTo("He");
+        view.setText(null);
+        assertThat(o.takeNext().toString()).isEqualTo("");
 
         subscription.unsubscribe();
 

@@ -123,30 +123,6 @@ public final class RxViewTest {
     }
 
     @Test
-    public void weakWeakHashMap() throws InterruptedException {
-        Object o = new Object();
-
-        Map<Object, String> map = new WeakHashMap<>();
-        map.put("Hey", "Ho");
-        map.put(o, "Hi");
-        System.out.println("values: " + new ArrayList<>(map.values()));
-
-        WeakReference<Object> ref = new WeakReference<>(o);
-
-        for (long i = 0; true; i++) {
-            System.out.println("Try " + i);
-            Runtime.getRuntime().gc();
-            o = null;
-            if (ref.get() == o) { // Contrived comparison against null.
-                break;
-            }
-            Thread.sleep(100);
-        }
-
-        System.out.println("values: " + new ArrayList<>(map.values()));
-    }
-
-    @Test
     @UiThreadTest
     public void focusChanges() {
         // We need a parent which can take focus from our view when it attempts to clear.

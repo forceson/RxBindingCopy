@@ -61,7 +61,7 @@ public final class RxLog {
             }
         };
     }
-    
+
     private RxLog() {
         throw new AssertionError("No instances.");
     }
