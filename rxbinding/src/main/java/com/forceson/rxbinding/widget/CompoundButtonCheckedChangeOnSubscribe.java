@@ -9,7 +9,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
 
-import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
+import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
 /**
  * Created by son on 2020-01-10.
@@ -23,7 +23,7 @@ final class CompoundButtonCheckedChangeOnSubscribe implements Observable.OnSubsc
 
     @Override
     public void call(final Subscriber<? super Boolean> subscriber) {
-        assertUiThread();
+        checkUiThread();
 
         CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override

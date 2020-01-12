@@ -11,7 +11,7 @@ import rx.Subscription;
 import rx.functions.Action0;
 import rx.functions.Func1;
 
-import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
+import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
 /**
  * Created by son on 2020-01-10.
@@ -27,7 +27,7 @@ public class ViewDragOnSubscribe implements Observable.OnSubscribe<DragEvent> {
 
     @Override
     public void call(Subscriber<? super DragEvent> subscriber) {
-        assertUiThread();
+        checkUiThread();
 
         View.OnDragListener listener = new View.OnDragListener() {
             @Override

@@ -9,7 +9,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
 
-import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
+import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
 /**
  * Created by son on 2020-01-10.
@@ -23,7 +23,7 @@ final class ViewFocusChangeOnSubscribe implements Observable.OnSubscribe<Boolean
 
     @Override
     public void call(final Subscriber<? super Boolean> subscriber) {
-        assertUiThread();
+        checkUiThread();
 
         View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
             @Override

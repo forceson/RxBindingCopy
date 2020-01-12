@@ -11,7 +11,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
 
-import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
+import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
 /**
  * Created by son on 2020-01-10.
@@ -25,7 +25,7 @@ public class ViewFocusChangeEventOnSubscribe implements Observable.OnSubscribe<V
 
     @Override
     public void call(Subscriber<? super ViewFocusChangeEvent> subscriber) {
-        assertUiThread();
+        checkUiThread();
 
         final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {

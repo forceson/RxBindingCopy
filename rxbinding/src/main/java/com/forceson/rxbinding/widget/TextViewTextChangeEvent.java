@@ -4,6 +4,8 @@ import android.widget.TextView;
 
 import com.forceson.rxbinding.view.ViewEvent;
 
+import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
+
 /**
  * Created by son on 2020-01-10.
  */
@@ -21,7 +23,7 @@ public final class TextViewTextChangeEvent extends ViewEvent<TextView> {
     private TextViewTextChangeEvent(TextView view, long timestamp, CharSequence text, int start,
                                     int before, int count) {
         super(view, timestamp);
-        this.text = text;
+        this.text = checkNotNull(text, "text == null");
         this.start = start;
         this.before = before;
         this.count = count;

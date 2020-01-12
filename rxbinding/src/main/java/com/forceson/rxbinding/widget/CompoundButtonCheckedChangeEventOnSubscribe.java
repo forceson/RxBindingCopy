@@ -11,7 +11,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
 
-import static com.forceson.rxbinding.internal.Assertions.assertUiThread;
+import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
 /**
  * Created by son on 2020-01-10.
@@ -27,7 +27,7 @@ final class CompoundButtonCheckedChangeEventOnSubscribe
     @Override
     public void call(
             final Subscriber<? super CompoundButtonCheckedChangeEvent> subscriber) {
-        assertUiThread();
+        checkUiThread();
 
         final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {

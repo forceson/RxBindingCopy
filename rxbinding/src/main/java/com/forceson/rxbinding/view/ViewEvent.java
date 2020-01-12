@@ -5,6 +5,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
+
 /**
  * Created by son on 2020-01-10.
  */
@@ -14,7 +16,7 @@ public class ViewEvent<T extends View> {
     private final long timestamp;
 
     protected ViewEvent(@NonNull T view, long timestamp) {
-        this.view = view;
+        this.view = checkNotNull(view, "view == null");
         this.timestamp = timestamp;
     }
 

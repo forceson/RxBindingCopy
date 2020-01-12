@@ -7,6 +7,8 @@ import com.forceson.rxbinding.plugins.RxAndroidPlugins;
 
 import rx.Scheduler;
 
+import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
+
 /**
  * Created by son on 2020-01-09.
  */
@@ -15,9 +17,7 @@ public final class HandlerSchedulers {
             new HandlerScheduler(new Handler(Looper.getMainLooper()));
 
     public static Scheduler from(final Handler handler) {
-        if (handler == null) {
-            throw new NullPointerException("handler == null");
-        }
+        checkNotNull(handler, "handler == null");
         return new HandlerScheduler(handler);
     }
 
