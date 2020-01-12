@@ -140,7 +140,10 @@ public final class RxView {
     public static Action1<? super Boolean> setVisibility(final View view,
                                                          final int visibilityWhenFalse) {
         checkNotNull(view, "view == null");
-        checkArgument(visibilityWhenFalse != View.VISIBLE, "Setting visibility to VISIBLE when false would have no effect.");
+        checkArgument(visibilityWhenFalse != View.VISIBLE,
+                "Setting visibility to VISIBLE when false would have no effect.");
+        checkArgument(visibilityWhenFalse == View.INVISIBLE || visibilityWhenFalse == View.GONE,
+                "Must set visibility to INVISIBLE or GONE when false.");
         return new Action1<Boolean>() {
             @Override
             public void call(Boolean value) {
