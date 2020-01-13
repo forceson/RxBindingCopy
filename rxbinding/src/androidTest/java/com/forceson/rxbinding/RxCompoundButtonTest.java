@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import rx.Subscription;
+import rx.functions.Action1;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -102,15 +103,27 @@ public final class RxCompoundButtonTest {
 
     @Test
     @UiThreadTest
-    public void setText() {
-        RxTextView.setText(view).call("Hey");
-        assertThat(view.getText().toString()).isEqualTo("Hey");
+    public void setChecked() {
+        view.setChecked(false);
+        Action1<? super Boolean> toggle = RxCompoundButton.setChecked(view);
+
+        toggle.call(true);
+        assertThat(view.isChecked()).isTrue();
+
+        toggle.call(false);
+        assertThat(view.isChecked()).isFalse();
     }
 
     @Test
     @UiThreadTest
-    public void setTextRes() {
-        RxTextView.setTextRes(view).call(R.string.hey);
-        assertThat(view.getText().toString()).isEqualTo("Hey");
+    public void toggle() {
+        view.setChecked(false);
+        Action1<? super Object> toggle = RxCompoundButton.toggle(view);
+
+        toggle.call(null);
+        assertThat(view.isChecked()).isTrue();
+
+        toggle.call(null);
+        assertThat(view.isChecked()).isFalse();
     }
 }
