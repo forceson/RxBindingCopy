@@ -45,11 +45,11 @@ public final class RxLog {
         };
     }
 
-    public static Action1<? super Throwable> error(String tag) {
+    public static Action1<Throwable> error(String tag) {
         return error(tag, "");
     }
 
-    public static Action1<? super Throwable> error(final String tag, final String message) {
+    public static Action1<Throwable> error(final String tag, final String message) {
         checkNotNull(tag, "tag == null");
         checkNotNull(message, "message == null");
 

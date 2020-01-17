@@ -3,8 +3,6 @@ package com.forceson.rxbinding.view;
 import android.view.View;
 
 import com.forceson.rxbinding.internal.AndroidSubscriptions;
-import com.forceson.rxbinding.plugins.RxAndroidClockHook;
-import com.forceson.rxbinding.plugins.RxAndroidPlugins;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -16,7 +14,8 @@ import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 /**
  * Created by son on 2020-01-09.
  */
-class ViewClickOnSubscribe implements Observable.OnSubscribe<Long> {
+class ViewClickOnSubscribe implements Observable.OnSubscribe<Object> {
+    private final Object event = new Object();
     private final View view;
 
     ViewClickOnSubscribe(View view) {
@@ -24,14 +23,13 @@ class ViewClickOnSubscribe implements Observable.OnSubscribe<Long> {
     }
 
     @Override
-    public void call(Subscriber<? super Long> subscriber) {
+    public void call(Subscriber<? super Object> subscriber) {
         checkUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subscriber.onNext(clockHook.uptimeMillis());
+                subscriber.onNext(event);
             }
         };
 

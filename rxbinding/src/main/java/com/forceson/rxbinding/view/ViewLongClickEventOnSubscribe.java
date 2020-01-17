@@ -30,11 +30,10 @@ final class ViewLongClickEventOnSubscribe implements Observable.OnSubscribe<View
     public void call(final Subscriber<? super ViewLongClickEvent> subscriber) {
         checkUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         View.OnLongClickListener listener = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ViewLongClickEvent event = ViewLongClickEvent.create(view, clockHook.uptimeMillis());
+                ViewLongClickEvent event = ViewLongClickEvent.create(view);
                 if (handled.call(event)) {
                     subscriber.onNext(event);
                     return true;

@@ -5,8 +5,6 @@ import android.text.TextWatcher;
 import android.widget.TextView;
 
 import com.forceson.rxbinding.internal.AndroidSubscriptions;
-import com.forceson.rxbinding.plugins.RxAndroidClockHook;
-import com.forceson.rxbinding.plugins.RxAndroidPlugins;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -29,7 +27,6 @@ final class TextViewTextEventOnSubscribe implements Observable.OnSubscribe<TextV
     public void call(final Subscriber<? super TextViewTextChangeEvent> subscriber) {
         checkUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         final TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -38,7 +35,7 @@ final class TextViewTextEventOnSubscribe implements Observable.OnSubscribe<TextV
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 subscriber.onNext(
-                        TextViewTextChangeEvent.create(view, clockHook.uptimeMillis(), s, start, before,
+                        TextViewTextChangeEvent.create(view, s, start, before,
                                 count));
             }
 
@@ -59,6 +56,6 @@ final class TextViewTextEventOnSubscribe implements Observable.OnSubscribe<TextV
 
         // Send out the initial value.
         subscriber.onNext(
-                TextViewTextChangeEvent.create(view, clockHook.uptimeMillis(), view.getText(), 0, 0, 0));
+                TextViewTextChangeEvent.create(view, view.getText(), 0, 0, 0));
     }
 }

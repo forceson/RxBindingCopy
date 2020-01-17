@@ -3,8 +3,6 @@ package com.forceson.rxbinding.view;
 import android.view.View;
 
 import com.forceson.rxbinding.internal.AndroidSubscriptions;
-import com.forceson.rxbinding.plugins.RxAndroidClockHook;
-import com.forceson.rxbinding.plugins.RxAndroidPlugins;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -27,11 +25,10 @@ public class ViewFocusChangeEventOnSubscribe implements Observable.OnSubscribe<V
     public void call(Subscriber<? super ViewFocusChangeEvent> subscriber) {
         checkUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                subscriber.onNext(ViewFocusChangeEvent.create(view, clockHook.uptimeMillis(), hasFocus));
+                subscriber.onNext(ViewFocusChangeEvent.create(view, hasFocus));
             }
         };
 
@@ -46,6 +43,6 @@ public class ViewFocusChangeEventOnSubscribe implements Observable.OnSubscribe<V
         view.setOnFocusChangeListener(listener);
 
         // Send out the initial value.
-        subscriber.onNext(ViewFocusChangeEvent.create(view, clockHook.uptimeMillis(), view.hasFocus()));
+        subscriber.onNext(ViewFocusChangeEvent.create(view, view.hasFocus()));
     }
 }

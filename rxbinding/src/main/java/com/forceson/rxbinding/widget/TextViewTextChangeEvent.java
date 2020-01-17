@@ -10,9 +10,9 @@ import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
  * Created by son on 2020-01-10.
  */
 public final class TextViewTextChangeEvent extends ViewEvent<TextView> {
-    public static TextViewTextChangeEvent create(TextView view, long timestamp, CharSequence text,
+    public static TextViewTextChangeEvent create(TextView view, CharSequence text,
                                                  int start, int before, int count) {
-        return new TextViewTextChangeEvent(view, timestamp, text, start, before, count);
+        return new TextViewTextChangeEvent(view, text, start, before, count);
     }
 
     private final CharSequence text;
@@ -20,9 +20,9 @@ public final class TextViewTextChangeEvent extends ViewEvent<TextView> {
     private final int before;
     private final int count;
 
-    private TextViewTextChangeEvent(TextView view, long timestamp, CharSequence text, int start,
+    private TextViewTextChangeEvent(TextView view, CharSequence text, int start,
                                     int before, int count) {
-        super(view, timestamp);
+        super(view);
         this.text = checkNotNull(text, "text == null");
         this.start = start;
         this.before = before;
@@ -79,8 +79,6 @@ public final class TextViewTextChangeEvent extends ViewEvent<TextView> {
                 + count
                 + ", view="
                 + view()
-                + ", timestamp="
-                + timestamp()
                 + '}';
     }
 }

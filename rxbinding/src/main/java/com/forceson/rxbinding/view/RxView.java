@@ -7,6 +7,7 @@ import com.forceson.rxbinding.internal.Functions;
 
 import rx.Observable;
 import rx.functions.Action1;
+import rx.functions.Func0;
 import rx.functions.Func1;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkArgument;
@@ -17,7 +18,7 @@ import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
  */
 public final class RxView {
 
-    public static Observable<Long> clicks(View view) {
+    public static Observable<Object> clicks(View view) {
         checkNotNull(view, "view == null");
         return Observable.create(new ViewClickOnSubscribe(view));
     }
@@ -29,7 +30,7 @@ public final class RxView {
 
     public static Observable<DragEvent> drags(View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewDragOnSubscribe(view, Functions.ALWAYS_TRUE));
+        return Observable.create(new ViewDragOnSubscribe(view, Functions.FUNC1_ALWAYS_TRUE));
     }
 
     public static Observable<DragEvent> drags(View view, Func1<DragEvent, Boolean> handled) {
@@ -39,7 +40,7 @@ public final class RxView {
 
     public static Observable<ViewDragEvent> dragEvents(View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewDragEventOnSubscribe(view, Functions.ALWAYS_TRUE));
+        return Observable.create(new ViewDragEventOnSubscribe(view, Functions.FUNC1_ALWAYS_TRUE));
     }
 
     public static Observable<ViewDragEvent> dragEvents(View view,
@@ -59,12 +60,12 @@ public final class RxView {
         return Observable.create(new ViewFocusChangeEventOnSubscribe(view));
     }
 
-    public static Observable<Long> longClicks(View view) {
+    public static Observable<Object> longClicks(View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewLongClickOnSubscribe(view, Functions.ALWAYS_TRUE));
+        return Observable.create(new ViewLongClickOnSubscribe(view, Functions.FUNC0_ALWAYS_TRUE));
     }
 
-    public static Observable<Long> longClicks(View view, Func1<? super Long, Boolean> handled) {
+    public static Observable<Object> longClicks(View view, Func0<Boolean> handled) {
         checkNotNull(view, "view == null");
         checkNotNull(handled, "handled == null");
         return Observable.create(new ViewLongClickOnSubscribe(view, handled));

@@ -10,20 +10,21 @@ import org.jetbrains.annotations.NotNull;
  * Created by son on 2020-01-10.
  */
 public class ViewFocusChangeEvent extends ViewEvent<View> {
-    public static ViewFocusChangeEvent create(View view, long timestamp, boolean hasFocus) {
-        return new ViewFocusChangeEvent(view, timestamp, hasFocus);
+    public static ViewFocusChangeEvent create(View view, boolean hasFocus) {
+        return new ViewFocusChangeEvent(view, hasFocus);
     }
 
     private final boolean hasFocus;
 
-    private ViewFocusChangeEvent(@NonNull View view, long timestamp, boolean hasFocus) {
-        super(view, timestamp);
+    private ViewFocusChangeEvent(@NonNull View view, boolean hasFocus) {
+        super(view);
         this.hasFocus = hasFocus;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
+        result = result * 37 + view().hashCode();
         result = result * 37 + (hasFocus ? 1 : 0);
         return result;
     }
@@ -33,8 +34,7 @@ public class ViewFocusChangeEvent extends ViewEvent<View> {
         if (o == this) return true;
         if (!(o instanceof ViewFocusChangeEvent)) return false;
         ViewFocusChangeEvent other = (ViewFocusChangeEvent) o;
-        return super.equals(other)
-                && hasFocus == other.hasFocus;
+        return other.view() == view() && other.hasFocus == hasFocus;
     }
 
     @NotNull
@@ -44,8 +44,6 @@ public class ViewFocusChangeEvent extends ViewEvent<View> {
                 + hasFocus
                 + ", view="
                 + view()
-                + ", timestamp="
-                + timestamp()
                 + '}';
     }
 }

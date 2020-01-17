@@ -27,11 +27,10 @@ final class ViewClickEventOnSubscribe implements Observable.OnSubscribe<ViewClic
     public void call(Subscriber<? super ViewClickEvent> subscriber) {
         checkUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subscriber.onNext(ViewClickEvent.create(view, clockHook.uptimeMillis()));
+                subscriber.onNext(ViewClickEvent.create(view));
             }
         };
 

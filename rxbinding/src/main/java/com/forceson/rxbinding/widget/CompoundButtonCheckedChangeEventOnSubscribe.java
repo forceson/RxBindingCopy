@@ -3,8 +3,6 @@ package com.forceson.rxbinding.widget;
 import android.widget.CompoundButton;
 
 import com.forceson.rxbinding.internal.AndroidSubscriptions;
-import com.forceson.rxbinding.plugins.RxAndroidClockHook;
-import com.forceson.rxbinding.plugins.RxAndroidPlugins;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -29,12 +27,11 @@ final class CompoundButtonCheckedChangeEventOnSubscribe
             final Subscriber<? super CompoundButtonCheckedChangeEvent> subscriber) {
         checkUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         CompoundButton.OnCheckedChangeListener listener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 subscriber.onNext(
-                        CompoundButtonCheckedChangeEvent.create(view, clockHook.uptimeMillis(), isChecked));
+                        CompoundButtonCheckedChangeEvent.create(view, isChecked));
             }
         };
 
@@ -50,6 +47,6 @@ final class CompoundButtonCheckedChangeEventOnSubscribe
 
         // Send out the initial value.
         subscriber.onNext(
-                CompoundButtonCheckedChangeEvent.create(view, clockHook.uptimeMillis(), view.isChecked()));
+                CompoundButtonCheckedChangeEvent.create(view, view.isChecked()));
     }
 }

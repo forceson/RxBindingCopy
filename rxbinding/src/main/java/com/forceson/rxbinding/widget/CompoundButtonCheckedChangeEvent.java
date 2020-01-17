@@ -8,15 +8,14 @@ import com.forceson.rxbinding.view.ViewEvent;
  * Created by son on 2020-01-10.
  */
 public final class CompoundButtonCheckedChangeEvent extends ViewEvent<CompoundButton> {
-    public static CompoundButtonCheckedChangeEvent create(CompoundButton view, long timestamp,
-                                                          boolean isChecked) {
-        return new CompoundButtonCheckedChangeEvent(view, timestamp, isChecked);
+    public static CompoundButtonCheckedChangeEvent create(CompoundButton view, boolean isChecked) {
+        return new CompoundButtonCheckedChangeEvent(view, isChecked);
     }
 
     private final boolean isChecked;
 
-    private CompoundButtonCheckedChangeEvent(CompoundButton view, long timestamp, boolean isChecked) {
-        super(view, timestamp);
+    private CompoundButtonCheckedChangeEvent(CompoundButton view, boolean isChecked) {
+        super(view);
         this.isChecked = isChecked;
     }
 
@@ -46,8 +45,6 @@ public final class CompoundButtonCheckedChangeEvent extends ViewEvent<CompoundBu
                 + isChecked
                 + ", view="
                 + view()
-                + ", timestamp="
-                + timestamp()
                 + '}';
     }
 }

@@ -13,16 +13,14 @@ public final class RxAndroidPlugins {
     }
 
     private final AtomicReference<RxAndroidSchedulerHook> schedulersHook = new AtomicReference<>();
-    private final AtomicReference<RxAndroidClockHook> clockHook = new AtomicReference<>();
     private final AtomicReference<RxAndroidLogHook> logHook = new AtomicReference<>();
 
     public RxAndroidPlugins() {
 
     }
 
-    public void reset() {
+    void reset() {
         schedulersHook.set(null);
-        clockHook.set(null);
         logHook.set(null);
     }
 
@@ -37,19 +35,6 @@ public final class RxAndroidPlugins {
             }
         }
         return schedulersHook.get();
-    }
-
-    public RxAndroidClockHook getClockHook() {
-        if (clockHook.get() == null) {
-            RxAndroidClockHook impl =
-                    getPluginImplementationViaProperty(RxAndroidClockHook.class);
-            if (impl == null) {
-                clockHook.compareAndSet(null, RxAndroidClockHook.getDefaultInstance());
-            } else {
-                clockHook.compareAndSet(null, impl);
-            }
-        }
-        return clockHook.get();
     }
 
     public RxAndroidLogHook getLogHook() {
@@ -97,17 +82,10 @@ public final class RxAndroidPlugins {
         }
     }
 
-    public void registerClockHook(RxAndroidClockHook impl) {
-        if (!clockHook.compareAndSet(null, impl)) {
-            throw new IllegalStateException(
-                    "Another strategy was already registered: " + clockHook.get());
-        }
-    }
-
     public void registerLogHook(RxAndroidLogHook impl) {
         if (!logHook.compareAndSet(null, impl)) {
             throw new IllegalStateException(
-                    "Another strategy was already registered: " + clockHook.get());
+                    "Another strategy was already registered: " + logHook.get());
         }
     }
 }

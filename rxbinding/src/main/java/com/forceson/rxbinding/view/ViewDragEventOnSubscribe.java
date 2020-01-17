@@ -31,11 +31,10 @@ public class ViewDragEventOnSubscribe implements Observable.OnSubscribe<ViewDrag
     public void call(Subscriber<? super ViewDragEvent> subscriber) {
         checkUiThread();
 
-        final RxAndroidClockHook clockHook = RxAndroidPlugins.getInstance().getClockHook();
         View.OnDragListener listener = new View.OnDragListener() {
             @Override
             public boolean onDrag(View view, DragEvent dragEvent) {
-                ViewDragEvent event = ViewDragEvent.create(view, clockHook.uptimeMillis(), dragEvent);
+                ViewDragEvent event = ViewDragEvent.create(view, dragEvent);
                 if (handled.call(event)) {
                     subscriber.onNext(event);
                     return true;
