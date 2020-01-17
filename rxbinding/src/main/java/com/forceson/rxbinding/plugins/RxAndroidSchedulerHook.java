@@ -6,7 +6,7 @@ import rx.functions.Action0;
 /**
  * Created by son on 2020-01-09.
  */
-public final class RxAndroidSchedulerHook {
+public class RxAndroidSchedulerHook {
     private static final RxAndroidSchedulerHook DEFAULT_INSTANCE = new RxAndroidSchedulerHook();
 
     public static RxAndroidSchedulerHook getDefaultInstance() {

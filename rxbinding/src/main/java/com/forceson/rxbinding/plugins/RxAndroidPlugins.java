@@ -19,7 +19,7 @@ public final class RxAndroidPlugins {
 
     }
 
-    void reset() {
+    public void reset() {
         schedulersHook.set(null);
         logHook.set(null);
     }
@@ -55,10 +55,11 @@ public final class RxAndroidPlugins {
         String classSimpleName = pluginClass.getSimpleName();
 
         String implementingClass =
-                System.getProperty("rxbinding.plugin." + classSimpleName + ".implementation");
+                System.getProperty("rxbinding.plugins." + classSimpleName + ".implementation");
         if (implementingClass != null) {
             try {
                 Class<?> cls = Class.forName(implementingClass);
+                cls = cls.asSubclass(pluginClass);
                 return (T) cls.newInstance();
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(

@@ -12,11 +12,15 @@ public class RxAndroidLogHook {
         return DEFAULT_INSTANCE;
     }
 
-    public int log(int priority, String tag, String msg) {
-        return Log.println(priority, tag, msg);
-    }
-
-    public int log(int priority, String tag, String msg, Throwable throwable) {
-        return Log.println(priority, tag, msg + '\n' + Log.getStackTraceString(throwable));
+    public void log(int priority, String tag, String msg, Throwable throwable) {
+        if (msg == null || msg.isEmpty()) {
+            if (throwable == null) {
+                return;
+            }
+            msg = Log.getStackTraceString(throwable);
+        } else if (throwable != null) {
+            msg += '\n' + Log.getStackTraceString(throwable);
+        }
+        Log.println(priority, tag, msg);
     }
 }
