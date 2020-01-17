@@ -38,9 +38,6 @@ import static junit.framework.TestCase.fail;
 
 @RunWith(AndroidJUnit4.class)
 public final class RxViewTest {
-    @Rule
-    public final UiThreadRule uiThread = UiThreadRule.createWithTimeout(10, SECONDS);
-
     private final Context context = InstrumentationRegistry.getContext();
     private final View view = new View(context);
 

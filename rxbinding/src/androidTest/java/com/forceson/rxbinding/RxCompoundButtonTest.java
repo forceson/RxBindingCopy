@@ -11,7 +11,6 @@ import androidx.test.runner.AndroidJUnit4;
 import com.forceson.rxbinding.widget.CompoundButtonCheckedChangeEvent;
 import com.forceson.rxbinding.widget.RxCompoundButton;
 
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,16 +18,12 @@ import rx.Subscription;
 import rx.functions.Action1;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by son on 2020-01-11.
  */
 @RunWith(AndroidJUnit4.class)
 public final class RxCompoundButtonTest {
-    @Rule
-    public final UiThreadRule uiThread = UiThreadRule.createWithTimeout(10, SECONDS);
-
     private final Context context = InstrumentationRegistry.getContext();
     private final CompoundButton view = new ToggleButton(context);
 
