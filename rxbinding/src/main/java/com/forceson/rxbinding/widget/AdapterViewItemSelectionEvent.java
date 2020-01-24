@@ -4,7 +4,6 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 /**
  * Created by son on 2020-01-17.

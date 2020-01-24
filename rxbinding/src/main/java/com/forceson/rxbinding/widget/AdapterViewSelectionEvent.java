@@ -9,7 +9,7 @@ import com.forceson.rxbinding.view.ViewEvent;
 /**
  * Created by son on 2020-01-17.
  */
-public class AdapterViewSelectionEvent extends ViewEvent<AdapterView<?>> {
+public abstract class AdapterViewSelectionEvent extends ViewEvent<AdapterView<?>> {
     protected AdapterViewSelectionEvent(@NonNull AdapterView<?> view) {
         super(view);
     }
