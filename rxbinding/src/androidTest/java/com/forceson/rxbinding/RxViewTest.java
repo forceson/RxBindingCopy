@@ -4,41 +4,31 @@ import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.annotation.UiThreadTest;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
-import com.forceson.rxbinding.plugins.RxAndroidPlugins;
 import com.forceson.rxbinding.view.RxView;
 import com.forceson.rxbinding.view.ViewClickEvent;
 import com.forceson.rxbinding.view.ViewFocusChangeEvent;
 import com.forceson.rxbinding.view.ViewLongClickEvent;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.WeakHashMap;
 
 import rx.Subscription;
 import rx.functions.Action1;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static junit.framework.TestCase.fail;
 
 /**
  * Created by son on 2020-01-10.
  */
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 public final class RxViewTest {
-    private final Context context = InstrumentationRegistry.getContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private final View view = new View(context);
 
     @Test

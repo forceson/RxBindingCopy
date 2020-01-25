@@ -4,6 +4,7 @@
     package="com.forceson.rxbinding">
 
     <application>
-        <activity android:name="com.forceson.rxbinding.RxAdapterViewActivity" />
+        <activity android:name="com.forceson.rxbinding.RxAdapterViewTestActivity" />
+        <activity android:name="com.forceson.rxbinding.RxSeekBarTestActivity" />
     </application>
 </manifest>

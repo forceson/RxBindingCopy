@@ -15,6 +15,7 @@ import com.forceson.rxbinding.widget.AdapterViewNothingSelectionEvent;
 import com.forceson.rxbinding.widget.AdapterViewSelectionEvent;
 import com.forceson.rxbinding.widget.RxAdapterView;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,15 +31,23 @@ import static com.google.common.truth.Truth.assertThat;
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class RxAdapterViewTest {
     @Rule
-    public final ActivityTestRule<RxAdapterViewActivity> activityRule = new ActivityTestRule<>(RxAdapterViewActivity.class);
+    public final ActivityTestRule<RxAdapterViewTestActivity> activityRule = new ActivityTestRule<>(RxAdapterViewTestActivity.class);
 
     private Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
 
+    private RxAdapterViewTestActivity activity;
+    private Spinner spinner;
+    private ListView listView;
+
+    @Before
+    public void setUp() {
+        activity = activityRule.getActivity();
+        spinner = activity.spinner;
+        listView = activity.listView;
+    }
+
     @Test
     public void itemSelections() {
-        RxAdapterViewActivity activity = activityRule.getActivity();
-        final Spinner spinner = activity.spinner;
-
         RecordingObserver<Integer> o = new RecordingObserver<>();
         Subscription subscription = RxAdapterView.itemSelections(spinner)
                 .subscribeOn(HandlerSchedulers.mainThread())
@@ -74,9 +83,6 @@ public class RxAdapterViewTest {
 
     @Test
     public void selectionEvents() {
-        final RxAdapterViewActivity activity = activityRule.getActivity();
-        final Spinner spinner = activity.spinner;
-
         RecordingObserver<AdapterViewSelectionEvent> o = new RecordingObserver<>();
         Subscription subscription = RxAdapterView.selectionEvents(spinner)
                 .subscribeOn(HandlerSchedulers.mainThread())
@@ -119,9 +125,6 @@ public class RxAdapterViewTest {
 
     @Test
     public void setSelection() {
-        RxAdapterViewActivity activity = activityRule.getActivity();
-        final Spinner spinner = activity.spinner;
-
         final Action1<? super Integer> action = RxAdapterView.setSelection(spinner);
 
         instrumentation.runOnMainSync(new Runnable() {
@@ -153,9 +156,6 @@ public class RxAdapterViewTest {
 
     @Test
     public void itemClicks() {
-        RxAdapterViewActivity activity = activityRule.getActivity();
-        final ListView listView = activity.listView;
-
         RecordingObserver<Integer> o = new RecordingObserver<>();
         Subscription subscription = RxAdapterView.itemClicks(listView)
                 .subscribeOn(HandlerSchedulers.mainThread())
@@ -191,9 +191,6 @@ public class RxAdapterViewTest {
 
     @Test
     public void itemClickEvents() {
-        RxAdapterViewActivity activity = activityRule.getActivity();
-        final ListView listView = activity.listView;
-
         RecordingObserver<AdapterViewItemClickEvent> o = new RecordingObserver<>();
         Subscription subscription = RxAdapterView.itemClickEvents(listView) //
                 .subscribeOn(HandlerSchedulers.mainThread()) //
