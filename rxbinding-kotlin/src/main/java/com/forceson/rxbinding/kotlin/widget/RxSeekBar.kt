@@ -9,6 +9,6 @@ import rx.Observable
  * Created by son on 2020-02-10.
  */
 
-fun SeekBar.changes(view: SeekBar): Observable<Int> = RxSeekBar.changes(view)
+fun SeekBar.changes(): Observable<Int> = RxSeekBar.changes(this)
 
-fun SeekBar.changeEvents(view: SeekBar): Observable<SeekBarChangeEvent> = RxSeekBar.changeEvents(view)
+fun SeekBar.changeEvents(): Observable<SeekBarChangeEvent> = RxSeekBar.changeEvents(this)

@@ -13,16 +13,16 @@ import rx.functions.Action1
  * Created by son on 2020-02-10.
  */
 
-fun <T: Adapter> AdapterView<T>.itemSelections(view: AdapterView<T>): Observable<Int> = RxAdapterView.itemSelections(view)
+fun <T: Adapter> AdapterView<T>.itemSelections(): Observable<Int> = RxAdapterView.itemSelections(this)
 
-fun <T: Adapter> AdapterView<T>.selectionEvents(view: AdapterView<T>): Observable<AdapterViewSelectionEvent> = RxAdapterView.selectionEvents(view)
+fun <T: Adapter> AdapterView<T>.selectionEvents(): Observable<AdapterViewSelectionEvent> = RxAdapterView.selectionEvents(this)
 
-fun <T: Adapter> AdapterView<T>.itemClicks(view: AdapterView<T>): Observable<Int> = RxAdapterView.itemClicks(view)
+fun <T: Adapter> AdapterView<T>.itemClicks(): Observable<Int> = RxAdapterView.itemClicks(this)
 
-fun <T: Adapter> AdapterView<T>.clickEvents(view: AdapterView<T>): Observable<AdapterViewItemClickEvent> = RxAdapterView.itemClickEvents(view)
+fun <T: Adapter> AdapterView<T>.clickEvents(): Observable<AdapterViewItemClickEvent> = RxAdapterView.itemClickEvents(this)
 
-fun <T: Adapter> AdapterView<T>.itemLongClicks(view: AdapterView<T>): Observable<Int> = RxAdapterView.itemLongClicks(view)
+fun <T: Adapter> AdapterView<T>.itemLongClicks(): Observable<Int> = RxAdapterView.itemLongClicks(this)
 
-fun <T: Adapter> AdapterView<T>.longClickEvents(view: AdapterView<T>): Observable<AdapterViewItemLongClickEvent> = RxAdapterView.itemLongClicksEvents(view)
+fun <T: Adapter> AdapterView<T>.longClickEvents(): Observable<AdapterViewItemLongClickEvent> = RxAdapterView.itemLongClicksEvents(this)
 
-fun <T: Adapter> AdapterView<T>.selection(view: AdapterView<T>): Action1<in Int> = RxAdapterView.setSelection(view)
+fun <T: Adapter> AdapterView<T>.selection(): Action1<in Int> = RxAdapterView.setSelection(this)

@@ -10,10 +10,10 @@ import rx.functions.Action1
  * Created by son on 2020-02-10.
  */
 
-fun TextView.textChanges(view: TextView): Observable<CharSequence> = RxTextView.textChanges(view)
+fun TextView.textChanges(): Observable<CharSequence> = RxTextView.textChanges(this)
 
-fun TextView.textChangeEvents(view: TextView): Observable<TextViewTextChangeEvent> = RxTextView.textChangeEvents(view)
+fun TextView.textChangeEvents(): Observable<TextViewTextChangeEvent> = RxTextView.textChangeEvents(this)
 
-fun TextView.text(view: TextView): Action1<in CharSequence> = RxTextView.setText(view)
+fun TextView.text(): Action1<in CharSequence> = RxTextView.setText(this)
 
-fun TextView.textRes(view: TextView): Action1<in Int> = RxTextView.setTextRes(view)
+fun TextView.textRes(): Action1<in Int> = RxTextView.setTextRes(this)

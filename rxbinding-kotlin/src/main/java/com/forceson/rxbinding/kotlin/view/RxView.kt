@@ -10,33 +10,32 @@ import rx.functions.Action1
  * Created by son on 2020-01-29.
  */
 
-fun View.clicks(view: View): Observable<Any> = RxView.clicks(view)
+fun View.clicks(): Observable<Any> = RxView.clicks(this)
 
-fun View.clicksEvents(view: View): Observable<ViewClickEvent> = RxView.clickEvents(view)
+fun View.clicksEvents(): Observable<ViewClickEvent> = RxView.clickEvents(this)
 
-fun View.drags(view: View): Observable<DragEvent> = RxView.drags(view)
+fun View.drags(): Observable<DragEvent> = RxView.drags(this)
 
-fun View.dragEvents(view: View): Observable<ViewDragEvent> = RxView.dragEvents(view)
+fun View.dragEvents(): Observable<ViewDragEvent> = RxView.dragEvents(this)
 
-fun View.focusChanges(view: View): Observable<Boolean> = RxView.focusChanges(view)
+fun View.focusChanges(): Observable<Boolean> = RxView.focusChanges(this)
 
-fun View.focusChangeEvents(view: View): Observable<ViewFocusChangeEvent> =
-    RxView.focusChangeEvents(view)
+fun View.focusChangeEvents(): Observable<ViewFocusChangeEvent> = RxView.focusChangeEvents(this)
 
-fun View.longClicks(view: View): Observable<Any> = RxView.longClicks(view)
+fun View.longClicks(): Observable<Any> = RxView.longClicks(this)
 
-fun View.longClickEvents(view: View): Observable<ViewLongClickEvent> = RxView.longClickEvents(view)
+fun View.longClickEvents(): Observable<ViewLongClickEvent> = RxView.longClickEvents(this)
 
-fun View.activated(view: View): Action1<in Boolean> = RxView.setActivated(view)
+fun View.activated(): Action1<in Boolean> = RxView.setActivated(this)
 
-fun View.clickable(view: View): Action1<in Boolean> = RxView.setClickable(view)
+fun View.clickable(): Action1<in Boolean> = RxView.setClickable(this)
 
-fun View.enabled(view: View): Action1<in Boolean> = RxView.setEnabled(view)
+fun View.enabled(): Action1<in Boolean> = RxView.setEnabled(this)
 
-fun View.pressed(view: View): Action1<in Boolean> = RxView.setPressed(view)
+fun View.pressed(): Action1<in Boolean> = RxView.setPressed(this)
 
-fun View.selected(view: View): Action1<in Boolean> = RxView.setSelected(view)
+fun View.selected(): Action1<in Boolean> = RxView.setSelected(this)
 
-fun View.visibility(view: View, visibilityWhenFalse: Int = View.GONE): Action1<in Boolean> {
-    return RxView.setVisibility(view, visibilityWhenFalse)
+fun View.visibility(visibilityWhenFalse: Int = View.GONE): Action1<in Boolean> {
+    return RxView.setVisibility(this, visibilityWhenFalse)
 }

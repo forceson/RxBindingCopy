@@ -10,8 +10,8 @@ import rx.functions.Action1
  * Created by son on 2020-02-10.
  */
 
-fun RadioGroup.checkedChanges(view: RadioGroup): Observable<Int> = RxRadioGroup.checkedChanges(view)
+fun RadioGroup.checkedChanges(): Observable<Int> = RxRadioGroup.checkedChanges(this)
 
-fun RadioGroup.checkedChangeEvents(view: RadioGroup): Observable<RadioGroupCheckedChangeEvent> = RxRadioGroup.checkedChangeEvents(view)
+fun RadioGroup.checkedChangeEvents(): Observable<RadioGroupCheckedChangeEvent> = RxRadioGroup.checkedChangeEvents(this)
 
-fun RadioGroup.checked(view: RadioGroup): Action1<in Int> = RxRadioGroup.setChecked(view)
+fun RadioGroup.checked(): Action1<in Int> = RxRadioGroup.setChecked(this)

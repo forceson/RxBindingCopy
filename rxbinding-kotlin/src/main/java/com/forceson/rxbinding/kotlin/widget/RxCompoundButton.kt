@@ -10,10 +10,10 @@ import rx.functions.Action1
  * Created by son on 2020-02-10.
  */
 
-fun CompoundButton.checkedChanges(view: CompoundButton): Observable<Boolean> = RxCompoundButton.checkedChanges(view)
+fun CompoundButton.checkedChanges(): Observable<Boolean> = RxCompoundButton.checkedChanges(this)
 
-fun CompoundButton.checkChangeEvents(view: CompoundButton): Observable<CompoundButtonCheckedChangeEvent> = RxCompoundButton.checkedChangeEvents(view)
+fun CompoundButton.checkChangeEvents(): Observable<CompoundButtonCheckedChangeEvent> = RxCompoundButton.checkedChangeEvents(this)
 
-fun CompoundButton.checked(view: CompoundButton): Action1<in Boolean> = RxCompoundButton.setChecked(view)
+fun CompoundButton.checked(): Action1<in Boolean> = RxCompoundButton.setChecked(this)
 
-fun CompoundButton.toggle(view: CompoundButton): Action1<in Any> = RxCompoundButton.toggle(view)
+fun CompoundButton.toggle(): Action1<in Any> = RxCompoundButton.toggle(this)
