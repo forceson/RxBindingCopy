@@ -1,13 +1,10 @@
 package com.forceson.rxbinding;
 
 import android.app.Instrumentation;
-import android.content.Context;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 
-import androidx.test.annotation.UiThreadTest;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.annotation.UiThreadTest;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
 import com.forceson.rxbinding.widget.CompoundButtonCheckedChangeEvent;
 import com.forceson.rxbinding.widget.RxCompoundButton;
@@ -22,9 +22,9 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Created by son on 2020-01-11.
  */
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 public final class RxCompoundButtonTest {
-    private final Context context = InstrumentationRegistry.getContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private final CompoundButton view = new ToggleButton(context);
 
     @Test

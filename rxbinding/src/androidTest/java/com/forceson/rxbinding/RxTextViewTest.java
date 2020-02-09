@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.annotation.UiThreadTest;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.forceson.rxbinding.widget.RxTextView;
@@ -20,9 +22,9 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Created by son on 2020-01-11.
  */
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 public final class RxTextViewTest {
-    private final Context context = InstrumentationRegistry.getContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private final TextView view = new TextView(context);
 
     @Test

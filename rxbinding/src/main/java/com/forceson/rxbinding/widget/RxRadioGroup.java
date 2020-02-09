@@ -10,7 +10,7 @@ import rx.functions.Action1;
  * Created by son on 2020-01-25.
  */
 public class RxRadioGroup {
-    public static Observable<Integer> checkedChange(RadioGroup view) {
+    public static Observable<Integer> checkedChanges(RadioGroup view) {
         return Observable.create(new RadioGroupCheckedChangeOnSubscribe(view));
     }
 

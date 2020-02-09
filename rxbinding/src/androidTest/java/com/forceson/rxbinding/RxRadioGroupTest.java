@@ -42,7 +42,7 @@ public class RxRadioGroupTest {
     @UiThreadTest
     public void checkedChanges() {
         RecordingObserver<Integer> o = new RecordingObserver<>();
-        Subscription subscription = RxRadioGroup.checkedChange(view)
+        Subscription subscription = RxRadioGroup.checkedChanges(view)
                 .distinctUntilChanged()
                 .subscribe(o);
         o.assertNoMoreEvents();

@@ -1,2 +1,2 @@
-include ':app', ':rxbinding-core', ':rxbinding'
+include ':app', ':rxbinding-core', ':rxbinding', ':rxbinding-kotlin'
 rootProject.name='RxBindingCopy'

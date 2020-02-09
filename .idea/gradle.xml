@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/rxbinding" />
             <option value="$PROJECT_DIR$/rxbinding-core" />
+            <option value="$PROJECT_DIR$/rxbinding-kotlin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
