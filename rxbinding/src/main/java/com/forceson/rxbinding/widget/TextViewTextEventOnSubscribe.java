@@ -34,9 +34,11 @@ final class TextViewTextEventOnSubscribe implements Observable.OnSubscribe<TextV
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                subscriber.onNext(
-                        TextViewTextChangeEvent.create(view, s, start, before,
-                                count));
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(
+                            TextViewTextChangeEvent.create(view, s, start, before,
+                                    count));
+                }
             }
 
             @Override

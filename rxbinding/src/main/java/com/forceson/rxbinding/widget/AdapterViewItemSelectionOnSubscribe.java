@@ -31,7 +31,9 @@ public class AdapterViewItemSelectionOnSubscribe implements Observable.OnSubscri
         AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                subscriber.onNext(position);
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(position);
+                }
             }
 
             @Override

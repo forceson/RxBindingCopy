@@ -29,7 +29,9 @@ public class AdapterViewItemClickOnSubscribe implements Observable.OnSubscribe<I
         AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                subscriber.onNext(position);
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(position);
+                }
             }
         };
 

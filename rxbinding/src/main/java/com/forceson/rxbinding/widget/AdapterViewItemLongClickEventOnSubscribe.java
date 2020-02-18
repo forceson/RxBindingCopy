@@ -31,7 +31,9 @@ public class AdapterViewItemLongClickEventOnSubscribe implements Observable.OnSu
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 AdapterViewItemLongClickEvent event = AdapterViewItemLongClickEvent.create(adapterView, view, position, id);
                 if (handled.call(event)) {
-                    subscriber.onNext(event);
+                    if (!subscriber.isUnsubscribed()) {
+                        subscriber.onNext(event);
+                    }
                     return true;
                 }
                 return false;

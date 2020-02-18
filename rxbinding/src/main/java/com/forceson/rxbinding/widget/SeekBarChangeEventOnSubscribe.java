@@ -28,17 +28,23 @@ public class SeekBarChangeEventOnSubscribe implements Observable.OnSubscribe<See
         SeekBar.OnSeekBarChangeListener listener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                subscriber.onNext(SeekBarProgressChangeEvent.create(seekBar, progress, fromUser));
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(SeekBarProgressChangeEvent.create(seekBar, progress, fromUser));
+                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                subscriber.onNext(SeekBarStartChangeEvent.create(seekBar));
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(SeekBarStartChangeEvent.create(seekBar));
+                }
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                subscriber.onNext(SeekBarStopChangeEvent.create(seekBar));
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(SeekBarStopChangeEvent.create(seekBar));
+                }
             }
         };
 

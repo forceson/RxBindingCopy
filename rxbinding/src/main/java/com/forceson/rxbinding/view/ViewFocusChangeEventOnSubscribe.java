@@ -28,7 +28,9 @@ public class ViewFocusChangeEventOnSubscribe implements Observable.OnSubscribe<V
         View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                subscriber.onNext(ViewFocusChangeEvent.create(view, hasFocus));
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(ViewFocusChangeEvent.create(view, hasFocus));
+                }
             }
         };
 

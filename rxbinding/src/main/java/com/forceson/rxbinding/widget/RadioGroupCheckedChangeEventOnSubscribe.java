@@ -28,7 +28,9 @@ public class RadioGroupCheckedChangeEventOnSubscribe implements Observable.OnSub
         RadioGroup.OnCheckedChangeListener listener = new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                subscriber.onNext(RadioGroupCheckedChangeEvent.create(radioGroup, checkedId));
+                if (!subscriber.isUnsubscribed()) {
+                    subscriber.onNext(RadioGroupCheckedChangeEvent.create(radioGroup, checkedId));
+                }
             }
         };
         Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
