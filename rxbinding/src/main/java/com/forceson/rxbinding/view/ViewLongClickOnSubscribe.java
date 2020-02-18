@@ -2,12 +2,10 @@ package com.forceson.rxbinding.view;
 
 import android.view.View;
 
-import com.forceson.rxbinding.internal.AndroidSubscriptions;
+import com.forceson.rxbinding.MainThreadSubscription;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
 import rx.functions.Func0;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
@@ -41,12 +39,12 @@ final class ViewLongClickOnSubscribe implements Observable.OnSubscribe<Object> {
             }
         };
 
-        Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
-            @Override public void call() {
+        subscriber.add(new MainThreadSubscription() {
+            @Override
+            protected void onUnsubscribe() {
                 view.setOnLongClickListener(null);
             }
         });
-        subscriber.add(subscription);
 
         view.setOnLongClickListener(listener);
     }

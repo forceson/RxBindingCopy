@@ -3,12 +3,10 @@ package com.forceson.rxbinding.widget;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.forceson.rxbinding.internal.AndroidSubscriptions;
+import com.forceson.rxbinding.MainThreadSubscription;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
 import rx.functions.Func1;
 
 /**
@@ -40,14 +38,12 @@ public class AdapterViewItemLongClickEventOnSubscribe implements Observable.OnSu
             }
         };
 
-        Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
+        subscriber.add(new MainThreadSubscription() {
             @Override
-            public void call() {
+            protected void onUnsubscribe() {
                 view.setOnItemLongClickListener(null);
             }
         });
-
-        subscriber.add(subscription);
 
         view.setOnItemLongClickListener(listener);
     }

@@ -3,12 +3,10 @@ package com.forceson.rxbinding.widget;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.forceson.rxbinding.internal.AndroidSubscriptions;
+import com.forceson.rxbinding.MainThreadSubscription;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
@@ -35,13 +33,12 @@ public class AdapterViewItemClickEventOnSubscribe implements Observable.OnSubscr
             }
         };
 
-        Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
+        subscriber.add(new MainThreadSubscription() {
             @Override
-            public void call() {
+            protected void onUnsubscribe() {
                 view.setOnItemClickListener(null);
             }
         });
-        subscriber.add(subscription);
 
         view.setOnItemClickListener(listener);
     }

@@ -2,12 +2,8 @@ package com.forceson.rxbinding.view;
 
 import android.view.View;
 
-import com.forceson.rxbinding.internal.AndroidSubscriptions;
-
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
@@ -35,13 +31,12 @@ class ViewClickOnSubscribe implements Observable.OnSubscribe<Object> {
             }
         };
 
-        Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
+        /*subscriber.add(new MainThreadSubscription() {
             @Override
-            public void call() {
+            protected void onUnsubscribe() {
                 view.setOnClickListener(null);
             }
-        });
-        subscriber.add(subscription);
+        });*/
 
         view.setOnClickListener(listener);
     }

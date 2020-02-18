@@ -4,12 +4,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.TextView;
 
-import com.forceson.rxbinding.internal.AndroidSubscriptions;
+import com.forceson.rxbinding.MainThreadSubscription;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkUiThread;
 
@@ -44,13 +42,12 @@ final class TextViewTextOnSubscribe implements Observable.OnSubscribe<CharSequen
             }
         };
 
-        Subscription subscription = AndroidSubscriptions.unsubscribeOnMainThread(new Action0() {
+        subscriber.add(new MainThreadSubscription() {
             @Override
-            public void call() {
+            protected void onUnsubscribe() {
                 view.removeTextChangedListener(watcher);
             }
         });
-        subscriber.add(subscription);
 
         view.addTextChangedListener(watcher);
 
