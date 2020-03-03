@@ -4,11 +4,13 @@ import android.view.DragEvent;
 import android.view.View;
 
 import com.forceson.rxbinding.internal.Functions;
+import com.forceson.rxbinding.internal.Notification;
 
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func0;
-import rx.functions.Func1;
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkArgument;
 import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
@@ -20,134 +22,108 @@ public final class RxView {
 
     public static Observable<Object> clicks(View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewClickOnSubscribe(view));
-    }
-
-    public static Observable<ViewClickEvent> clickEvents(View view) {
-        checkNotNull(view, "view == null");
-        return Observable.create(new ViewClickEventOnSubscribe(view));
+        return Observable.create(emitter -> {
+            view.setOnClickListener(v -> {
+                if (!emitter.isDisposed()) {
+                    emitter.onNext(Notification.INSTANCE);
+                }
+            });
+            emitter.setCancellable(() -> view.setOnClickListener(null));
+        });
+//        return new ViewClickObservable(view);
     }
 
     public static Observable<DragEvent> drags(View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewDragOnSubscribe(view, Functions.FUNC1_ALWAYS_TRUE));
+        return new ViewDragObservable(view, Functions.FUNC1_ALWAYS_TRUE);
     }
 
-    public static Observable<DragEvent> drags(View view, Func1<DragEvent, Boolean> handled) {
+    public static Observable<DragEvent> drags(View view, Function<DragEvent, Boolean> handled) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewDragOnSubscribe(view, handled));
-    }
-
-    public static Observable<ViewDragEvent> dragEvents(View view) {
-        checkNotNull(view, "view == null");
-        return Observable.create(new ViewDragEventOnSubscribe(view, Functions.FUNC1_ALWAYS_TRUE));
-    }
-
-    public static Observable<ViewDragEvent> dragEvents(View view,
-                                                       Func1<ViewDragEvent, Boolean> handled) {
-        checkNotNull(view, "view == null");
-        checkNotNull(handled, "handled == null");
-        return Observable.create(new ViewDragEventOnSubscribe(view, handled));
+        return new ViewDragObservable(view, handled);
     }
 
     public static Observable<Boolean> focusChanges(View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewFocusChangeOnSubscribe(view));
-    }
-
-    public static Observable<ViewFocusChangeEvent> focusChangeEvents(View view) {
-        checkNotNull(view, "view == null");
-        return Observable.create(new ViewFocusChangeEventOnSubscribe(view));
+        return new ViewFocusChangeObservable(view);
     }
 
     public static Observable<Object> longClicks(View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewLongClickOnSubscribe(view, Functions.FUNC0_ALWAYS_TRUE));
+        return new ViewLongClickObservable(view, Functions.FUNC0_ALWAYS_TRUE);
     }
 
-    public static Observable<Object> longClicks(View view, Func0<Boolean> handled) {
+    public static Observable<Object> longClicks(View view, Callable<Boolean> handled) {
         checkNotNull(view, "view == null");
         checkNotNull(handled, "handled == null");
-        return Observable.create(new ViewLongClickOnSubscribe(view, handled));
+        return new ViewLongClickObservable(view, handled);
     }
 
-    public static Observable<ViewLongClickEvent> longClickEvents(View view) {
+    public static Consumer<? super Boolean> setActivated(final View view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new ViewLongClickEventOnSubscribe(view, Functions.ALWAYS_TRUE));
-    }
-
-    public static Observable<ViewLongClickEvent> longClickEvents(View view,
-                                                                 Func1<? super ViewLongClickEvent, Boolean> handled) {
-        checkNotNull(view, "view == null");
-        checkNotNull(handled, "handled == null");
-        return Observable.create(new ViewLongClickEventOnSubscribe(view, handled));
-    }
-
-    public static Action1<? super Boolean> setActivated(final View view) {
-        checkNotNull(view, "view == null");
-        return new Action1<Boolean>() {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) throws Exception {
                 view.setActivated(value);
             }
         };
     }
 
-    public static Action1<? super Boolean> setClickable(final View view) {
+    public static Consumer<? super Boolean> setClickable(final View view) {
         checkNotNull(view, "view == null");
-        return new Action1<Boolean>() {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) {
                 view.setClickable(value);
             }
         };
     }
 
-    public static Action1<? super Boolean> setEnabled(final View view) {
+    public static Consumer<? super Boolean> setEnabled(final View view) {
         checkNotNull(view, "view == null");
-        return new Action1<Boolean>() {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) {
                 view.setEnabled(value);
             }
         };
     }
 
-    public static Action1<? super Boolean> setPressed(final View view) {
+    public static Consumer<? super Boolean> setPressed(final View view) {
         checkNotNull(view, "view == null");
-        return new Action1<Boolean>() {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) {
                 view.setPressed(value);
             }
         };
     }
 
-    public static Action1<? super Boolean> setSelected(final View view) {
+    public static Consumer<? super Boolean> setSelected(final View view) {
         checkNotNull(view, "view == null");
-        return new Action1<Boolean>() {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) {
                 view.setSelected(value);
             }
         };
     }
 
-    public static Action1<? super Boolean> setVisibility(View view) {
+    public static Consumer<? super Boolean> setVisibility(View view) {
         checkNotNull(view, "view == null");
         return setVisibility(view, View.GONE);
     }
 
-    public static Action1<? super Boolean> setVisibility(final View view,
+    public static Consumer<? super Boolean> setVisibility(final View view,
                                                          final int visibilityWhenFalse) {
         checkNotNull(view, "view == null");
         checkArgument(visibilityWhenFalse != View.VISIBLE,
                 "Setting visibility to VISIBLE when false would have no effect.");
         checkArgument(visibilityWhenFalse == View.INVISIBLE || visibilityWhenFalse == View.GONE,
                 "Must set visibility to INVISIBLE or GONE when false.");
-        return new Action1<Boolean>() {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) {
                 view.setVisibility(value ? View.VISIBLE : visibilityWhenFalse);
             }
         };

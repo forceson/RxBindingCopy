@@ -9,15 +9,9 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
 import com.forceson.rxbinding.view.RxView;
-import com.forceson.rxbinding.view.ViewClickEvent;
-import com.forceson.rxbinding.view.ViewFocusChangeEvent;
-import com.forceson.rxbinding.view.ViewLongClickEvent;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import rx.Subscription;
-import rx.functions.Action1;
 
 import static com.google.common.truth.Truth.assertThat;
 import static junit.framework.TestCase.fail;
