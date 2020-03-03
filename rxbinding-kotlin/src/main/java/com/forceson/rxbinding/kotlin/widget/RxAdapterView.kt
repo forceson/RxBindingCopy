@@ -2,8 +2,6 @@ package com.forceson.rxbinding.kotlin.widget
 
 import android.widget.Adapter
 import android.widget.AdapterView
-import com.forceson.rxbinding.widget.AdapterViewItemClickEvent
-import com.forceson.rxbinding.widget.AdapterViewItemLongClickEvent
 import com.forceson.rxbinding.widget.AdapterViewSelectionEvent
 import com.forceson.rxbinding.widget.RxAdapterView
 import rx.Observable

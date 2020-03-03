@@ -9,7 +9,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.forceson.rxbinding.schedulers.HandlerSchedulers;
-import com.forceson.rxbinding.widget.AdapterViewItemClickEvent;
 import com.forceson.rxbinding.widget.AdapterViewItemSelectionEvent;
 import com.forceson.rxbinding.widget.AdapterViewNothingSelectionEvent;
 import com.forceson.rxbinding.widget.AdapterViewSelectionEvent;
@@ -19,9 +18,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import rx.Subscription;
-import rx.functions.Action1;
 
 import static com.google.common.truth.Truth.assertThat;
 

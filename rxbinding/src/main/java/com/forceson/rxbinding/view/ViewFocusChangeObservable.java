@@ -22,8 +22,9 @@ final class ViewFocusChangeObservable extends Observable<Boolean> {
     protected void subscribeActual(Observer<? super Boolean> observer) {
         verifyMainThread();
         Listener listener = new Listener(view, observer);
-        observer.onSubscribe(listener);
         view.setOnFocusChangeListener(listener);
+        observer.onSubscribe(listener);
+        observer.onNext(view.hasFocus());
     }
 
     static final class Listener extends MainThreadDisposable implements View.OnFocusChangeListener {
