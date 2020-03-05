@@ -11,6 +11,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
     lintOptions {
         textReport true
         textOutput 'stdout'
