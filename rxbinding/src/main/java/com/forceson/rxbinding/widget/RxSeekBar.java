@@ -9,11 +9,11 @@ import rx.Observable;
  */
 public class RxSeekBar {
     public static Observable<Integer> changes(SeekBar view) {
-        return Observable.create(new SeekBarChangeOnSubscribe(view));
+        return Observable.create(new SeekBarChangeObservable(view));
     }
 
     public static Observable<SeekBarChangeEvent> changeEvents(SeekBar view) {
-        return Observable.create(new SeekBarChangeEventOnSubscribe(view));
+        return Observable.create(new SeekBarChangeEventObservable(view));
     }
 
     private RxSeekBar() {

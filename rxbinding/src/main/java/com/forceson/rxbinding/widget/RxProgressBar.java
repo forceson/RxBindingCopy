@@ -2,61 +2,61 @@ package com.forceson.rxbinding.widget;
 
 import android.widget.ProgressBar;
 
-import rx.functions.Action1;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by son on 2020-01-25.
  */
 public class RxProgressBar {
-    public static Action1<? super Integer> incrementProgressBy(final ProgressBar view) {
-        return new Action1<Integer>() {
+    public static Consumer<? super Integer> incrementProgressBy(final ProgressBar view) {
+        return new Consumer<Integer>() {
             @Override
-            public void call(Integer value) {
+            public void accept(Integer value) {
                 view.incrementProgressBy(value);
             }
         };
     }
 
-    public static Action1<? super Integer> incrementSecondaryProgressBy(final ProgressBar view) {
-        return new Action1<Integer>() {
+    public static Consumer<? super Integer> incrementSecondaryProgressBy(final ProgressBar view) {
+        return new Consumer<Integer>() {
             @Override
-            public void call(Integer value) {
+            public void accept(Integer value) {
                 view.incrementSecondaryProgressBy(value);
             }
         };
     }
 
-    public static Action1<? super Boolean> setIndeterminate(final ProgressBar view) {
-        return new Action1<Boolean>() {
+    public static Consumer<? super Boolean> setIndeterminate(final ProgressBar view) {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) {
                 view.setIndeterminate(value);
             }
         };
     }
 
-    public static Action1<? super Integer> setMax(final ProgressBar view) {
-        return new Action1<Integer>() {
+    public static Consumer<? super Integer> setMax(final ProgressBar view) {
+        return new Consumer<Integer>() {
             @Override
-            public void call(Integer value) {
+            public void accept(Integer value) {
                 view.setMax(value);
             }
         };
     }
 
-    public static Action1<? super Integer> setProgress(final ProgressBar view) {
-        return new Action1<Integer>() {
+    public static Consumer<? super Integer> setProgress(final ProgressBar view) {
+        return new Consumer<Integer>() {
             @Override
-            public void call(Integer value) {
+            public void accept(Integer value) {
                 view.setProgress(value);
             }
         };
     }
 
-    public static Action1<? super Integer> setSecondaryProgress(final ProgressBar view) {
-        return new Action1<Integer>() {
+    public static Consumer<? super Integer> setSecondaryProgress(final ProgressBar view) {
+        return new Consumer<Integer>() {
             @Override
-            public void call(Integer value) {
+            public void accept(Integer value) {
                 view.setSecondaryProgress(value);
             }
         };
