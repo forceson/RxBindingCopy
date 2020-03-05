@@ -8,15 +8,13 @@ import androidx.test.annotation.UiThreadTest;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
-import com.forceson.rxbinding.widget.RadioGroupCheckedChangeEvent;
 import com.forceson.rxbinding.widget.RxRadioGroup;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import rx.Subscription;
-import rx.functions.Action1;
+import io.reactivex.functions.Consumer;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -42,9 +40,7 @@ public class RxRadioGroupTest {
     @UiThreadTest
     public void checkedChanges() {
         RecordingObserver<Integer> o = new RecordingObserver<>();
-        Subscription subscription = RxRadioGroup.checkedChanges(view)
-                .distinctUntilChanged()
-                .subscribe(o);
+        RxRadioGroup.checkedChanges(view).subscribe(o);
         o.assertNoMoreEvents();
 
         view.check(1);
@@ -56,31 +52,7 @@ public class RxRadioGroupTest {
         view.check(2);
         assertThat(o.takeNext()).isEqualTo(2);
 
-        subscription.unsubscribe();
-
-        view.check(1);
-        o.assertNoMoreEvents();
-    }
-
-    @Test
-    @UiThreadTest
-    public void checkedChangeEvents() {
-        RecordingObserver<RadioGroupCheckedChangeEvent> o = new RecordingObserver<>();
-        Subscription subscription = RxRadioGroup.checkedChangeEvents(view)
-                .distinctUntilChanged()
-                .subscribe(o);
-        o.assertNoMoreEvents();
-
-        view.check(1);
-        assertThat(o.takeNext()).isEqualTo(RadioGroupCheckedChangeEvent.create(view, 1));
-
-        view.clearCheck();
-        assertThat(o.takeNext()).isEqualTo(RadioGroupCheckedChangeEvent.create(view, -1));
-
-        view.check(2);
-        assertThat(o.takeNext()).isEqualTo(RadioGroupCheckedChangeEvent.create(view, 2));
-
-        subscription.unsubscribe();
+        o.dispose();
 
         view.check(1);
         o.assertNoMoreEvents();
@@ -89,13 +61,17 @@ public class RxRadioGroupTest {
     @Test
     @UiThreadTest
     public void setChecked() {
-        Action1<? super Integer> action = RxRadioGroup.setChecked(view);
-        assertThat(view.getCheckedRadioButtonId()).isEqualTo(-1);
-        action.call(1);
-        assertThat(view.getCheckedRadioButtonId()).isEqualTo(1);
-        action.call(-1);
-        assertThat(view.getCheckedRadioButtonId()).isEqualTo(-1);
-        action.call(2);
-        assertThat(view.getCheckedRadioButtonId()).isEqualTo(2);
+        Consumer<? super Integer> action = RxRadioGroup.setChecked(view);
+        try {
+            assertThat(view.getCheckedRadioButtonId()).isEqualTo(-1);
+            action.accept(1);
+            assertThat(view.getCheckedRadioButtonId()).isEqualTo(1);
+            action.accept(-1);
+            assertThat(view.getCheckedRadioButtonId()).isEqualTo(-1);
+            action.accept(2);
+            assertThat(view.getCheckedRadioButtonId()).isEqualTo(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.forceson.rxbinding.kotlin.widget
 
 import android.widget.RadioGroup
-import com.forceson.rxbinding.widget.RadioGroupCheckedChangeEvent
 import com.forceson.rxbinding.widget.RxRadioGroup
 import rx.Observable
 import rx.functions.Action1

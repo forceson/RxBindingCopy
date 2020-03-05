@@ -9,20 +9,20 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-import rx.Observer;
+import io.reactivex.observers.DisposableObserver;
 
 import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Created by son on 2020-01-11.
  */
-public class RecordingObserver<T> implements Observer<T> {
+public class RecordingObserver<T> extends DisposableObserver<T> {
     private static final String TAG = "RecordingObserver";
 
     private final BlockingDeque<Object> events = new LinkedBlockingDeque<>();
 
     @Override
-    public void onCompleted() {
+    public void onComplete() {
         Log.v(TAG, "onComplete");
         events.addLast(new OnComplete());
     }

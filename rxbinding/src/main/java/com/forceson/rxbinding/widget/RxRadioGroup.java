@@ -3,25 +3,21 @@ package com.forceson.rxbinding.widget;
 
 import android.widget.RadioGroup;
 
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by son on 2020-01-25.
  */
 public class RxRadioGroup {
     public static Observable<Integer> checkedChanges(RadioGroup view) {
-        return Observable.create(new RadioGroupCheckedChangeObservable(view));
+        return new RadioGroupCheckedChangeObservable(view);
     }
 
-    public static Observable<RadioGroupCheckedChangeEvent> checkedChangeEvents(RadioGroup view) {
-        return Observable.create(new RadioGroupCheckedChangeEventOnSubscribe(view));
-    }
-
-    public static Action1<Integer> setChecked(final RadioGroup view) {
-        return new Action1<Integer>() {
+    public static Consumer<Integer> setChecked(final RadioGroup view) {
+        return new Consumer<Integer>() {
             @Override
-            public void call(Integer value) {
+            public void accept(Integer value) {
                 if (value == -1) {
                     view.clearCheck();
                 } else {

@@ -2,7 +2,7 @@ package com.forceson.rxbinding.app;
 
 import android.app.NotificationManager;
 
-import rx.functions.Action1;
+import io.reactivex.functions.Consumer;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
 
@@ -10,12 +10,12 @@ import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
  * Created by son on 2020-01-11.
  */
 public class RxNotificationManager {
-    public static Action1<? extends NotificationAction> performAction(
+    public static Consumer<? extends NotificationAction> performAction(
             final NotificationManager notificationManager) {
         checkNotNull(notificationManager, "notificationManager == null");
-        return new Action1<NotificationAction>() {
+        return new Consumer<NotificationAction>() {
             @Override
-            public void call(NotificationAction notificationAction) {
+            public void accept(NotificationAction notificationAction) {
                 notificationAction.apply(notificationManager);
             }
         };
