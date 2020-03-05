@@ -2,8 +2,8 @@ package com.forceson.rxbinding.widget;
 
 import android.widget.TextView;
 
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
 
@@ -13,29 +13,29 @@ import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
 public final class RxTextView {
     public static Observable<CharSequence> textChanges(TextView view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new TextViewTextOnSubscribe(view));
+        return new TextViewTextObservable(view);
     }
 
     public static Observable<TextViewTextChangeEvent> textChangeEvents(TextView view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new TextViewTextEventOnSubscribe(view));
+        return new TextViewTextChangeEventObservable(view);
     }
 
-    public static Action1<? super CharSequence> setText(final TextView view) {
+    public static Consumer<? super CharSequence> setText(final TextView view) {
         checkNotNull(view, "view == null");
-        return new Action1<CharSequence>() {
+        return new Consumer<CharSequence>() {
             @Override
-            public void call(CharSequence charSequence) {
+            public void accept(CharSequence charSequence) {
                 view.setText(charSequence);
             }
         };
     }
 
-    public static Action1<? super Integer> setTextRes(final TextView view) {
+    public static Consumer<? super Integer> setTextRes(final TextView view) {
         checkNotNull(view, "view == null");
-        return new Action1<Integer>() {
+        return new Consumer<Integer>() {
             @Override
-            public void call(Integer textRes) {
+            public void accept(Integer textRes) {
                 view.setText(textRes);
             }
         };
