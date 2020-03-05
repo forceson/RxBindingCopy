@@ -2,8 +2,8 @@ package com.forceson.rxbinding.widget;
 
 import android.widget.CompoundButton;
 
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 import static com.forceson.rxbinding.internal.Preconditions.checkNotNull;
 
@@ -14,30 +14,24 @@ public final class RxCompoundButton {
 
     public static Observable<Boolean> checkedChanges(CompoundButton view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new CompoundButtonCheckedChangeOnSubscribe(view));
+        return new CompoundButtonCheckedChangeObservable(view);
     }
 
-    public static Observable<CompoundButtonCheckedChangeEvent> checkedChangeEvents(
-            CompoundButton view) {
+    public static Consumer<? super Boolean> setChecked(final CompoundButton view) {
         checkNotNull(view, "view == null");
-        return Observable.create(new CompoundButtonCheckedChangeEventOnSubscribe(view));
-    }
-
-    public static Action1<? super Boolean> setChecked(final CompoundButton view) {
-        checkNotNull(view, "view == null");
-        return new Action1<Boolean>() {
+        return new Consumer<Boolean>() {
             @Override
-            public void call(Boolean value) {
+            public void accept(Boolean value) {
                 view.setChecked(value);
             }
         };
     }
 
-    public static Action1<? super Object> toggle(final CompoundButton view) {
+    public static Consumer<? super Object> toggle(final CompoundButton view) {
         checkNotNull(view, "view == null");
-        return new Action1<Object>() {
+        return new Consumer<Object>() {
             @Override
-            public void call(Object value) {
+            public void accept(Object value) {
                 view.toggle();
             }
         };

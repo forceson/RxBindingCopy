@@ -1,7 +1,6 @@
 package com.forceson.rxbinding.kotlin.widget
 
 import android.widget.CompoundButton
-import com.forceson.rxbinding.widget.CompoundButtonCheckedChangeEvent
 import com.forceson.rxbinding.widget.RxCompoundButton
 import rx.Observable
 import rx.functions.Action1

@@ -8,7 +8,6 @@ import androidx.test.annotation.UiThreadTest;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
-import com.forceson.rxbinding.widget.CompoundButtonCheckedChangeEvent;
 import com.forceson.rxbinding.widget.RxCompoundButton;
 
 import org.junit.Test;

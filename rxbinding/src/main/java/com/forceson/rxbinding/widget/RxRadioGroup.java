@@ -11,7 +11,7 @@ import rx.functions.Action1;
  */
 public class RxRadioGroup {
     public static Observable<Integer> checkedChanges(RadioGroup view) {
-        return Observable.create(new RadioGroupCheckedChangeOnSubscribe(view));
+        return Observable.create(new RadioGroupCheckedChangeObservable(view));
     }
 
     public static Observable<RadioGroupCheckedChangeEvent> checkedChangeEvents(RadioGroup view) {
