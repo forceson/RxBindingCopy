@@ -8,7 +8,6 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.forceson.rxbinding.schedulers.HandlerSchedulers;
 import com.forceson.rxbinding.widget.AdapterViewItemSelectionEvent;
 import com.forceson.rxbinding.widget.AdapterViewNothingSelectionEvent;
 import com.forceson.rxbinding.widget.AdapterViewSelectionEvent;
@@ -18,6 +17,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -45,8 +47,8 @@ public class RxAdapterViewTest {
     @Test
     public void itemSelections() {
         RecordingObserver<Integer> o = new RecordingObserver<>();
-        Subscription subscription = RxAdapterView.itemSelections(spinner)
-                .subscribeOn(HandlerSchedulers.mainThread())
+        RxAdapterView.itemSelections(spinner)
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(o);
         o.assertNoMoreEvents();
 
@@ -66,7 +68,7 @@ public class RxAdapterViewTest {
         });
         assertThat(o.takeNext()).isEqualTo(0);
 
-        subscription.unsubscribe();
+        o.dispose();
 
         instrumentation.runOnMainSync(new Runnable() {
             @Override
@@ -80,8 +82,8 @@ public class RxAdapterViewTest {
     @Test
     public void selectionEvents() {
         RecordingObserver<AdapterViewSelectionEvent> o = new RecordingObserver<>();
-        Subscription subscription = RxAdapterView.selectionEvents(spinner)
-                .subscribeOn(HandlerSchedulers.mainThread())
+        RxAdapterView.selectionEvents(spinner)
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(o);
 
         instrumentation.runOnMainSync(new Runnable() {
@@ -107,7 +109,7 @@ public class RxAdapterViewTest {
 
         assertThat(o.takeNext()).isEqualTo(AdapterViewNothingSelectionEvent.create(spinner));
 
-        subscription.unsubscribe();
+        o.dispose();
 
         instrumentation.runOnMainSync(new Runnable() {
             @Override
@@ -121,12 +123,16 @@ public class RxAdapterViewTest {
 
     @Test
     public void setSelection() {
-        final Action1<? super Integer> action = RxAdapterView.setSelection(spinner);
+        final Consumer<? super Integer> action = RxAdapterView.setSelection(spinner);
 
         instrumentation.runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                action.call(2);
+                try {
+                    action.accept(2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         instrumentation.runOnMainSync(new Runnable() {
@@ -139,7 +145,11 @@ public class RxAdapterViewTest {
         instrumentation.runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                action.call(1);
+                try {
+                    action.accept(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         instrumentation.runOnMainSync(new Runnable() {
@@ -153,8 +163,8 @@ public class RxAdapterViewTest {
     @Test
     public void itemClicks() {
         RecordingObserver<Integer> o = new RecordingObserver<>();
-        Subscription subscription = RxAdapterView.itemClicks(listView)
-                .subscribeOn(HandlerSchedulers.mainThread())
+        RxAdapterView.itemClicks(listView)
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(o);
         o.assertNoMoreEvents();
 
@@ -174,38 +184,7 @@ public class RxAdapterViewTest {
         });
         assertThat(o.takeNext()).isEqualTo(0);
 
-        subscription.unsubscribe();
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listView.performItemClick(listView.getChildAt(1), 1, 1);
-            }
-        });
-        o.assertNoMoreEvents();
-    }
-
-    @Test
-    public void itemClickEvents() {
-        RecordingObserver<AdapterViewItemClickEvent> o = new RecordingObserver<>();
-        Subscription subscription = RxAdapterView.itemClickEvents(listView) //
-                .subscribeOn(HandlerSchedulers.mainThread()) //
-                .subscribe(o);
-        o.assertNoMoreEvents();
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listView.performItemClick(listView.getChildAt(2), 2, 2);
-            }
-        });
-        AdapterViewItemClickEvent event = o.takeNext();
-        assertThat(event.view()).isEqualTo(listView);
-        assertThat(event.clickedView()).isNotNull();
-        assertThat(event.position()).isEqualTo(2);
-        assertThat(event.id()).isEqualTo(2);
-
-        subscription.unsubscribe();
+        o.dispose();
 
         instrumentation.runOnMainSync(new Runnable() {
             @Override
