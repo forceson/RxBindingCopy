@@ -3,7 +3,7 @@ package com.forceson.rxbinding.kotlin.widget
 import android.widget.SeekBar
 import com.forceson.rxbinding.widget.RxSeekBar
 import com.forceson.rxbinding.widget.SeekBarChangeEvent
-import rx.Observable
+import io.reactivex.Observable
 
 /**
  * Created by son on 2020-02-10.
