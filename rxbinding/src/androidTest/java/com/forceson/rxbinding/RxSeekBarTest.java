@@ -9,7 +9,6 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.forceson.rxbinding.schedulers.HandlerSchedulers;
 import com.forceson.rxbinding.widget.RxSeekBar;
 import com.forceson.rxbinding.widget.SeekBarChangeEvent;
 import com.forceson.rxbinding.widget.SeekBarProgressChangeEvent;
@@ -21,7 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import rx.Subscription;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
@@ -48,8 +47,8 @@ public final class RxSeekBarTest {
     @Test
     public void changes() {
         RecordingObserver<Integer> o = new RecordingObserver<>();
-        Subscription subscription = RxSeekBar.changes(seekBar)
-                .subscribeOn(HandlerSchedulers.mainThread())
+        RxSeekBar.changes(seekBar)
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(o);
         o.assertNoMoreEvents();
 
@@ -65,7 +64,7 @@ public final class RxSeekBarTest {
         instrumentation.waitForIdleSync();
         assertThat(o.takeNext()).isEqualTo(0);
 
-        subscription.unsubscribe();
+        o.dispose();
 
         instrumentation.sendPointerSync(motionEventAtPosition(ACTION_MOVE, 100));
         instrumentation.waitForIdleSync();
@@ -75,8 +74,8 @@ public final class RxSeekBarTest {
     @Test
     public void changeEvents() {
         RecordingObserver<SeekBarChangeEvent> o = new RecordingObserver<>();
-        Subscription subscription = RxSeekBar.changeEvents(seekBar)
-                .subscribeOn(HandlerSchedulers.mainThread())
+        RxSeekBar.changeEvents(seekBar)
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(o);
         o.assertNoMoreEvents();
 
@@ -101,7 +100,7 @@ public final class RxSeekBarTest {
         instrumentation.waitForIdleSync();
         assertThat(o.takeNext()).isEqualTo(SeekBarProgressChangeEvent.create(seekBar, 0, false));
 
-        subscription.unsubscribe();
+        o.dispose();
 
         instrumentation.sendPointerSync(motionEventAtPosition(ACTION_DOWN, 0));
         instrumentation.waitForIdleSync();
