@@ -12,7 +12,7 @@ import com.forceson.rxbinding.widget.RxProgressBar;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import rx.functions.Action1;
+import io.reactivex.functions.Consumer;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -27,73 +27,97 @@ public final class RxProgressBarTest {
     @Test
     @UiThreadTest
     public void incrementProgressBy() {
-        Action1<? super Integer> action = RxProgressBar.incrementProgressBy(view);
+        Consumer<? super Integer> action = RxProgressBar.incrementProgressBy(view);
         assertThat(view.getProgress()).isEqualTo(0);
-        action.call(10);
-        assertThat(view.getProgress()).isEqualTo(10);
-        action.call(20);
-        assertThat(view.getProgress()).isEqualTo(30);
-        action.call(30);
-        assertThat(view.getProgress()).isEqualTo(60);
-        action.call(40);
-        assertThat(view.getProgress()).isEqualTo(100);
+        try {
+            action.accept(10);
+            assertThat(view.getProgress()).isEqualTo(10);
+            action.accept(20);
+            assertThat(view.getProgress()).isEqualTo(30);
+            action.accept(30);
+            assertThat(view.getProgress()).isEqualTo(60);
+            action.accept(40);
+            assertThat(view.getProgress()).isEqualTo(100);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @UiThreadTest
     public void incrementSecondaryProgressBy() {
-        Action1<? super Integer> action = RxProgressBar.incrementSecondaryProgressBy(view);
+        Consumer<? super Integer> action = RxProgressBar.incrementSecondaryProgressBy(view);
         assertThat(view.getSecondaryProgress()).isEqualTo(0);
-        action.call(10);
-        assertThat(view.getSecondaryProgress()).isEqualTo(10);
-        action.call(20);
-        assertThat(view.getSecondaryProgress()).isEqualTo(30);
-        action.call(30);
-        assertThat(view.getSecondaryProgress()).isEqualTo(60);
-        action.call(40);
-        assertThat(view.getSecondaryProgress()).isEqualTo(100);
+        try {
+            action.accept(10);
+            assertThat(view.getSecondaryProgress()).isEqualTo(10);
+            action.accept(20);
+            assertThat(view.getSecondaryProgress()).isEqualTo(30);
+            action.accept(30);
+            assertThat(view.getSecondaryProgress()).isEqualTo(60);
+            action.accept(40);
+            assertThat(view.getSecondaryProgress()).isEqualTo(100);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @UiThreadTest
     public void setIndeterminate() {
-        Action1<? super Boolean> action = RxProgressBar.setIndeterminate(view);
-        action.call(true);
-        assertThat(view.isIndeterminate()).isTrue();
-        action.call(false);
-        assertThat(view.isIndeterminate()).isFalse();
+        Consumer<? super Boolean> action = RxProgressBar.setIndeterminate(view);
+        try {
+            action.accept(true);
+            assertThat(view.isIndeterminate()).isTrue();
+            action.accept(false);
+            assertThat(view.isIndeterminate()).isFalse();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @UiThreadTest
     public void setMax() {
-        Action1<? super Integer> action = RxProgressBar.setMax(view);
-        action.call(100);
-        assertThat(view.getMax()).isEqualTo(100);
-        action.call(1000);
-        assertThat(view.getMax()).isEqualTo(1000);
+        Consumer<? super Integer> action = RxProgressBar.setMax(view);
+        try {
+            action.accept(100);
+            assertThat(view.getMax()).isEqualTo(100);
+            action.accept(1000);
+            assertThat(view.getMax()).isEqualTo(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @UiThreadTest
     public void setProgress() {
-        Action1<? super Integer> action = RxProgressBar.setProgress(view);
+        Consumer<? super Integer> action = RxProgressBar.setProgress(view);
         assertThat(view.getProgress()).isEqualTo(0);
-        action.call(50);
-        assertThat(view.getProgress()).isEqualTo(50);
-        action.call(100);
-        assertThat(view.getProgress()).isEqualTo(100);
+        try {
+            action.accept(50);
+            assertThat(view.getProgress()).isEqualTo(50);
+            action.accept(100);
+            assertThat(view.getProgress()).isEqualTo(100);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @UiThreadTest
     public void setSecondaryProgress() {
-        Action1<? super Integer> action = RxProgressBar.setSecondaryProgress(view);
+        Consumer<? super Integer> action = RxProgressBar.setSecondaryProgress(view);
         assertThat(view.getSecondaryProgress()).isEqualTo(0);
-        action.call(50);
-        assertThat(view.getSecondaryProgress()).isEqualTo(50);
-        action.call(100);
-        assertThat(view.getSecondaryProgress()).isEqualTo(100);
+        try {
+            action.accept(50);
+            assertThat(view.getSecondaryProgress()).isEqualTo(50);
+            action.accept(100);
+            assertThat(view.getSecondaryProgress()).isEqualTo(100);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
