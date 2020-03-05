@@ -3,19 +3,15 @@ package com.forceson.rxbinding;
 import android.content.Context;
 import android.widget.TextView;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.annotation.UiThreadTest;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.forceson.rxbinding.widget.RxTextView;
 import com.forceson.rxbinding.widget.TextViewTextChangeEvent;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import rx.Subscription;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -33,7 +29,7 @@ public final class RxTextViewTest {
         view.setText("Initial");
 
         RecordingObserver<CharSequence> o = new RecordingObserver<>();
-        Subscription subscription = RxTextView.textChanges(view).subscribe(o);
+        RxTextView.textChanges(view).subscribe(o);
         assertThat(o.takeNext().toString()).isEqualTo("Initial");
 
         view.setText("H");
@@ -43,7 +39,7 @@ public final class RxTextViewTest {
         view.setText(null);
         assertThat(o.takeNext().toString()).isEqualTo("");
 
-        subscription.unsubscribe();
+        o.dispose();
 
         view.setText("Silent");
         o.assertNoMoreEvents();
@@ -55,7 +51,7 @@ public final class RxTextViewTest {
         view.setText("Initial");
 
         RecordingObserver<TextViewTextChangeEvent> o = new RecordingObserver<>();
-        Subscription subscription = RxTextView.textChangeEvents(view).subscribe(o);
+        RxTextView.textChangeEvents(view).subscribe(o);
         TextViewTextChangeEvent event0 = o.takeNext();
         assertThat(event0.view()).isSameAs(view);
         assertThat(event0.text().toString()).isEqualTo("Initial");
@@ -79,7 +75,7 @@ public final class RxTextViewTest {
         assertThat(event2.before()).isEqualTo(1);
         assertThat(event2.count()).isEqualTo(2);
 
-        subscription.unsubscribe();
+        o.dispose();
 
         view.setText("Silent");
         o.assertNoMoreEvents();
@@ -88,14 +84,22 @@ public final class RxTextViewTest {
     @Test
     @UiThreadTest
     public void setText() {
-        RxTextView.setText(view).call("Hey");
-        assertThat(view.getText().toString()).isEqualTo("Hey");
+        try {
+            RxTextView.setText(view).accept("Hey");
+            assertThat(view.getText().toString()).isEqualTo("Hey");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @UiThreadTest
     public void setTextRes() {
-        RxTextView.setTextRes(view).call(R.string.hey);
-        assertThat(view.getText().toString()).isEqualTo("Hey");
+        try {
+            RxTextView.setTextRes(view).accept(R.string.hey);
+            assertThat(view.getText().toString()).isEqualTo("Hey");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
