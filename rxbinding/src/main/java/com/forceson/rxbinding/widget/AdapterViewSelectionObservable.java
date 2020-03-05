@@ -67,7 +67,7 @@ final class AdapterViewSelectionObservable extends Observable<AdapterViewSelecti
 
         @Override
         protected void onDispose() {
-            view.setOnItemClickListener(null);
+            view.setOnItemSelectedListener(null);
         }
     }
 }

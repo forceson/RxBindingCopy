@@ -15,10 +15,6 @@ import io.reactivex.functions.Consumer;
  */
 public final class RxAdapterView {
 
-    public static Observable<Integer> itemClicks(AdapterView<?> view) {
-        return new AdapterViewItemClickObservable(view);
-    }
-
     public static Observable<Integer> itemLongClicks(AdapterView<?> view) {
         return itemLongClicks(view, Functions.FUNC0_ALWAYS_TRUE);
     }
@@ -28,7 +24,7 @@ public final class RxAdapterView {
     }
 
     public static Observable<Integer> itemSelections(AdapterView<?> view) {
-        return new AdapterViewItemClickObservable(view);
+        return new AdapterViewItemSelectionObservable(view);
     }
 
     public static Observable<AdapterViewSelectionEvent> selectionEvents(AdapterView<?> view) {

@@ -54,7 +54,7 @@ public class AdapterViewItemSelectionObservable extends Observable<Integer> {
 
         @Override
         protected void onDispose() {
-            view.setOnItemClickListener(null);
+            view.setOnItemSelectedListener(null);
         }
     }
 }

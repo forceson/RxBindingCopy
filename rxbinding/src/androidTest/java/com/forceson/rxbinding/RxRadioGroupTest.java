@@ -41,7 +41,7 @@ public class RxRadioGroupTest {
     public void checkedChanges() {
         RecordingObserver<Integer> o = new RecordingObserver<>();
         RxRadioGroup.checkedChanges(view).subscribe(o);
-        o.assertNoMoreEvents();
+        assertThat(o.takeNext()).isEqualTo(-1);
 
         view.check(1);
         assertThat(o.takeNext()).isEqualTo(1);

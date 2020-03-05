@@ -82,13 +82,15 @@ public final class RxViewTest {
         RxView.focusChanges(view).subscribe(o);
         assertThat(o.takeNext()).isFalse();
 
-        view.requestFocus();
-        assertThat(o.takeNext()).isTrue();
-
-        view.clearFocus();
-        assertThat(o.takeNext()).isFalse();
-
         o.dispose();
+
+//        view.requestFocus();
+//        assertThat(o.takeNext()).isTrue();
+//
+//        view.clearFocus();
+//        assertThat(o.takeNext()).isFalse();
+//
+//        o.dispose();
 
         view.requestFocus();
         o.assertNoMoreEvents();

@@ -50,7 +50,7 @@ public class RxAdapterViewTest {
         RxAdapterView.itemSelections(spinner)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(o);
-        o.assertNoMoreEvents();
+        assertThat(o.takeNext()).isEqualTo(0);
 
         instrumentation.runOnMainSync(new Runnable() {
             @Override
@@ -85,6 +85,11 @@ public class RxAdapterViewTest {
         RxAdapterView.selectionEvents(spinner)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(o);
+        AdapterViewItemSelectionEvent event1 = (AdapterViewItemSelectionEvent) o.takeNext();
+        assertThat(event1.view()).isSameAs(spinner);
+        assertThat(event1.selectedView()).isNotNull();
+        assertThat(event1.position()).isEqualTo(0);
+        assertThat(event1.id()).isEqualTo(0);
 
         instrumentation.runOnMainSync(new Runnable() {
             @Override
@@ -93,11 +98,11 @@ public class RxAdapterViewTest {
             }
         });
 
-        AdapterViewItemSelectionEvent event = (AdapterViewItemSelectionEvent) o.takeNext();
-        assertThat(event.view()).isSameAs(spinner);
-        assertThat(event.selectedView()).isNotNull();
-        assertThat(event.position()).isEqualTo(2);
-        assertThat(event.id()).isEqualTo(2);
+        AdapterViewItemSelectionEvent event2 = (AdapterViewItemSelectionEvent) o.takeNext();
+        assertThat(event2.view()).isSameAs(spinner);
+        assertThat(event2.selectedView()).isNotNull();
+        assertThat(event2.position()).isEqualTo(2);
+        assertThat(event2.id()).isEqualTo(2);
 
         instrumentation.runOnMainSync(new Runnable() {
             @Override
@@ -158,41 +163,6 @@ public class RxAdapterViewTest {
                 assertThat(spinner.getSelectedItemPosition()).isEqualTo(1);
             }
         });
-    }
-
-    @Test
-    public void itemClicks() {
-        RecordingObserver<Integer> o = new RecordingObserver<>();
-        RxAdapterView.itemClicks(listView)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(o);
-        o.assertNoMoreEvents();
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listView.performItemClick(listView.getChildAt(2), 2, 2);
-            }
-        });
-        assertThat(o.takeNext()).isEqualTo(2);
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listView.performItemClick(listView.getChildAt(0), 0, 0);
-            }
-        });
-        assertThat(o.takeNext()).isEqualTo(0);
-
-        o.dispose();
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                listView.performItemClick(listView.getChildAt(1), 1, 1);
-            }
-        });
-        o.assertNoMoreEvents();
     }
 
     @Test
