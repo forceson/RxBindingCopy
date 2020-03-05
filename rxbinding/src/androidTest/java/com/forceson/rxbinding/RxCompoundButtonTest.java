@@ -13,8 +13,7 @@ import com.forceson.rxbinding.widget.RxCompoundButton;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import rx.Subscription;
-import rx.functions.Action1;
+import io.reactivex.functions.Consumer;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -32,7 +31,7 @@ public final class RxCompoundButtonTest {
         view.setChecked(false);
 
         RecordingObserver<Boolean> o = new RecordingObserver<>();
-        Subscription subscription = RxCompoundButton.checkedChanges(view).subscribe(o);
+        RxCompoundButton.checkedChanges(view).subscribe(o);
         assertThat(o.takeNext()).isFalse();
 
         view.setChecked(true);
@@ -40,34 +39,7 @@ public final class RxCompoundButtonTest {
         view.setChecked(false);
         assertThat(o.takeNext()).isFalse();
 
-        subscription.unsubscribe();
-
-        view.setChecked(true);
-        o.assertNoMoreEvents();
-    }
-
-    @Test
-    @UiThreadTest
-    public void checkedChangeEvents() {
-        view.setChecked(false);
-
-        RecordingObserver<CompoundButtonCheckedChangeEvent> o = new RecordingObserver<>();
-        Subscription subscription = RxCompoundButton.checkedChangeEvents(view).subscribe(o);
-        CompoundButtonCheckedChangeEvent event0 = o.takeNext();
-        assertThat(event0.view()).isSameAs(view);
-        assertThat(event0.isChecked()).isFalse();
-
-        view.setChecked(true);
-        CompoundButtonCheckedChangeEvent event1 = o.takeNext();
-        assertThat(event1.view()).isSameAs(view);
-        assertThat(event1.isChecked()).isTrue();
-
-        view.setChecked(false);
-        CompoundButtonCheckedChangeEvent event2 = o.takeNext();
-        assertThat(event2.view()).isSameAs(view);
-        assertThat(event2.isChecked()).isFalse();
-
-        subscription.unsubscribe();
+        o.dispose();
 
         view.setChecked(true);
         o.assertNoMoreEvents();
@@ -77,25 +49,33 @@ public final class RxCompoundButtonTest {
     @UiThreadTest
     public void setChecked() {
         view.setChecked(false);
-        Action1<? super Boolean> toggle = RxCompoundButton.setChecked(view);
+        Consumer<? super Boolean> toggle = RxCompoundButton.setChecked(view);
 
-        toggle.call(true);
-        assertThat(view.isChecked()).isTrue();
+        try {
+            toggle.accept(true);
+            assertThat(view.isChecked()).isTrue();
 
-        toggle.call(false);
-        assertThat(view.isChecked()).isFalse();
+            toggle.accept(false);
+            assertThat(view.isChecked()).isFalse();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     @UiThreadTest
     public void toggle() {
         view.setChecked(false);
-        Action1<? super Object> toggle = RxCompoundButton.toggle(view);
+        Consumer<? super Object> toggle = RxCompoundButton.toggle(view);
 
-        toggle.call(null);
-        assertThat(view.isChecked()).isTrue();
+        try {
+            toggle.accept(null);
+            assertThat(view.isChecked()).isTrue();
 
-        toggle.call(null);
-        assertThat(view.isChecked()).isFalse();
+            toggle.accept(null);
+            assertThat(view.isChecked()).isFalse();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
